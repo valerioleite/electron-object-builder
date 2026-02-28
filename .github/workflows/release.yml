@@ -45,7 +45,7 @@ jobs:
       - run: npm ci
 
       - name: Build and package
-        run: npm run dist:win
+        run: npx electron-vite build && npx electron-builder --win --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Code signing (optional, configure secrets in repo settings)
@@ -58,7 +58,7 @@ jobs:
           name: windows-installers
           path: |
             dist/*.exe
-            dist/*.yml
+            dist/latest.yml
           retention-days: 5
 
   build-macos:
@@ -77,7 +77,7 @@ jobs:
       - run: npm ci
 
       - name: Build and package
-        run: npm run dist:mac
+        run: npx electron-vite build && npx electron-builder --mac --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Code signing (optional, configure secrets in repo settings)
@@ -93,7 +93,7 @@ jobs:
           name: macos-installers
           path: |
             dist/*.dmg
-            dist/*.yml
+            dist/latest-mac.yml
           retention-days: 5
 
   build-linux:
@@ -112,7 +112,7 @@ jobs:
       - run: npm ci
 
       - name: Build and package
-        run: npm run dist:linux
+        run: npx electron-vite build && npx electron-builder --linux --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -123,7 +123,7 @@ jobs:
           path: |
             dist/*.AppImage
             dist/*.deb
-            dist/*.yml
+            dist/latest-linux.yml
           retention-days: 5
 
   publish:
@@ -145,11 +145,12 @@ jobs:
           generate_release_notes: true
           files: |
             artifacts/windows-installers/*.exe
-            artifacts/windows-installers/*.yml
+            artifacts/windows-installers/latest.yml
             artifacts/macos-installers/*.dmg
-            artifacts/macos-installers/*.yml
+            artifacts/macos-installers/latest-mac.yml
             artifacts/linux-installers/*.AppImage
             artifacts/linux-installers/*.deb
-            artifacts/linux-installers/*.yml
+            artifacts/linux-installers/latest-linux.yml
+          overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
