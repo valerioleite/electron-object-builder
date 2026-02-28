@@ -1,0 +1,248 @@
+/**
+ * Export dialog for configuring thing/sprite export options.
+ * Ported from legacy ExportWindow.mxml.
+ *
+ * Supports PNG, BMP, JPG, and OBD formats with format-specific options.
+ * Returns export parameters on confirm.
+ */
+
+import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import {
+  Modal,
+  DialogButton,
+  FieldGroup,
+  TextInputField,
+  BrowseField,
+  RadioField,
+  CheckboxField,
+  NumberInputField,
+  SelectField
+} from '../../components/Modal'
+import { ImageFormat, OBDVersion } from '../../types/project'
+import { OTFormat } from '../../types/project'
+import { VERSIONS } from '../../data'
+import type { Version } from '../../types/version'
+import type { ThingExportFormat } from '../../types/project'
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface ExportDialogResult {
+  fileName: string
+  directory: string
+  format: ThingExportFormat
+  transparentBackground: boolean
+  jpegQuality: number
+  version: Version | null
+  obdVersion: number
+}
+
+export interface ExportDialogProps {
+  open: boolean
+  onClose: () => void
+  onConfirm: (result: ExportDialogResult) => void
+  enableObdFormat?: boolean
+  currentVersion?: Version | null
+  defaultFormat?: ThingExportFormat
+  defaultFileName?: string
+}
+
+// ---------------------------------------------------------------------------
+// OBD version options
+// ---------------------------------------------------------------------------
+
+const OBD_VERSION_OPTIONS = [
+  { value: String(OBDVersion.VERSION_2), label: 'OBD v2.0' },
+  { value: String(OBDVersion.VERSION_3), label: 'OBD v3.0' }
+]
+
+// ---------------------------------------------------------------------------
+// ExportDialog
+// ---------------------------------------------------------------------------
+
+export function ExportDialog({
+  open,
+  onClose,
+  onConfirm,
+  enableObdFormat = true,
+  currentVersion = null,
+  defaultFormat = ImageFormat.PNG,
+  defaultFileName = ''
+}: ExportDialogProps): React.JSX.Element {
+  const { t } = useTranslation()
+  const [fileName, setFileName] = useState(defaultFileName)
+  const [directory, setDirectory] = useState('')
+  const [format, setFormat] = useState<ThingExportFormat>(defaultFormat)
+  const [transparentBackground, setTransparentBackground] = useState(false)
+  const [jpegQuality, setJpegQuality] = useState(100)
+  const [selectedVersion, setSelectedVersion] = useState<Version | null>(currentVersion)
+  const [obdVersion, setObdVersion] = useState(OBDVersion.VERSION_3)
+
+  // Reset on open
+  useEffect(() => {
+    if (open) {
+      setFileName(defaultFileName)
+      setFormat(defaultFormat)
+      setSelectedVersion(currentVersion)
+      setJpegQuality(100)
+      setTransparentBackground(false)
+      setObdVersion(OBDVersion.VERSION_3)
+    }
+  }, [open, defaultFileName, defaultFormat, currentVersion])
+
+  const handleBrowseDirectory = useCallback(async () => {
+    if (!window.api?.file) return
+    const result = await window.api.file.showDirectoryDialog({ title: 'Select Output Folder' })
+    if (!result.canceled && result.directoryPath) {
+      setDirectory(result.directoryPath)
+    }
+  }, [])
+
+  const handleFormatChange = useCallback((newFormat: string) => {
+    setFormat(newFormat as ThingExportFormat)
+  }, [])
+
+  const handleVersionChange = useCallback((versionStr: string) => {
+    const ver = VERSIONS.find((v) => v.valueStr === versionStr) ?? null
+    setSelectedVersion(ver)
+  }, [])
+
+  const handleConfirm = useCallback(() => {
+    onConfirm({
+      fileName,
+      directory,
+      format,
+      transparentBackground,
+      jpegQuality,
+      version: format === OTFormat.OBD ? selectedVersion : null,
+      obdVersion: format === OTFormat.OBD ? obdVersion : 0
+    })
+    onClose()
+  }, [fileName, directory, format, transparentBackground, jpegQuality, selectedVersion, obdVersion, onConfirm, onClose])
+
+  const isValid = fileName.trim().length > 0 && directory.length > 0 &&
+    (format !== OTFormat.OBD || selectedVersion !== null)
+
+  const versionOptions = VERSIONS.map((v) => ({ value: v.valueStr, label: `v${v.valueStr}` }))
+
+  return (
+    <Modal
+      title={t('labels.export')}
+      open={open}
+      onClose={onClose}
+      width={450}
+      footer={
+        <>
+          <DialogButton label={t('labels.export')} onClick={handleConfirm} primary disabled={!isValid} />
+          <DialogButton label={t('labels.cancel')} onClick={onClose} />
+        </>
+      }
+    >
+      <div className="flex flex-col gap-3">
+        {/* File name */}
+        <TextInputField
+          label={t('labels.name')}
+          value={fileName}
+          onChange={setFileName}
+          placeholder="Enter file name..."
+        />
+
+        {/* Output folder */}
+        <BrowseField
+          label={t('controls.selectFolder')}
+          value={directory}
+          onBrowse={handleBrowseDirectory}
+          placeholder="Select output folder..."
+        />
+
+        {/* Format selection */}
+        <FieldGroup label={t('labels.format')}>
+          <div className="flex gap-4">
+            <RadioField
+              label="PNG"
+              name="export-format"
+              value={ImageFormat.PNG}
+              checked={format === ImageFormat.PNG}
+              onChange={handleFormatChange}
+            />
+            <RadioField
+              label="BMP"
+              name="export-format"
+              value={ImageFormat.BMP}
+              checked={format === ImageFormat.BMP}
+              onChange={handleFormatChange}
+            />
+            <RadioField
+              label="JPG"
+              name="export-format"
+              value={ImageFormat.JPG}
+              checked={format === ImageFormat.JPG}
+              onChange={handleFormatChange}
+            />
+            {enableObdFormat && (
+              <RadioField
+                label="OBD"
+                name="export-format"
+                value={OTFormat.OBD}
+                checked={format === OTFormat.OBD}
+                onChange={handleFormatChange}
+              />
+            )}
+          </div>
+        </FieldGroup>
+
+        {/* Format-specific options */}
+        <FieldGroup label="Options">
+          {/* PNG options */}
+          {format === ImageFormat.PNG && (
+            <CheckboxField
+              label={t('labels.transparentBackground')}
+              checked={transparentBackground}
+              onChange={setTransparentBackground}
+            />
+          )}
+
+          {/* BMP options */}
+          {format === ImageFormat.BMP && (
+            <p className="text-xs text-text-secondary">No additional options for BMP format.</p>
+          )}
+
+          {/* JPG options */}
+          {format === ImageFormat.JPG && (
+            <div className="flex items-center gap-3">
+              <NumberInputField
+                label={t('labels.quality')}
+                value={jpegQuality}
+                onChange={setJpegQuality}
+                min={10}
+                max={100}
+                step={5}
+              />
+              <span className="text-xs text-text-secondary">{jpegQuality}%</span>
+            </div>
+          )}
+
+          {/* OBD options */}
+          {format === OTFormat.OBD && (
+            <div className="flex flex-col gap-2">
+              <SelectField
+                label={t('labels.version')}
+                value={selectedVersion?.valueStr ?? ''}
+                onChange={handleVersionChange}
+                options={[{ value: '', label: 'Select version...' }, ...versionOptions]}
+              />
+              <SelectField
+                label="OBD Version"
+                value={String(obdVersion)}
+                onChange={(v) => setObdVersion(Number(v) as typeof obdVersion)}
+                options={OBD_VERSION_OPTIONS}
+              />
+            </div>
+          )}
+        </FieldGroup>
+      </div>
+    </Modal>
+  )
+}

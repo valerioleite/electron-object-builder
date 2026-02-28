@@ -1,0 +1,221 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - button "New (Ctrl+N)" [ref=e5]:
+      - img [ref=e6]
+    - button "Open (Ctrl+O)" [ref=e9]:
+      - img [ref=e10]
+    - button "Compile (Ctrl+S)" [disabled] [ref=e13]:
+      - img [ref=e14]
+    - button "Compile As... (Ctrl+Shift+S)" [disabled] [ref=e17]:
+      - img [ref=e18]
+    - button "Object Viewer" [ref=e22]:
+      - img [ref=e23]
+    - button "Sprites" [ref=e26]:
+      - img [ref=e27]
+    - button "Animation Editor" [ref=e30]:
+      - img [ref=e31]
+    - button "Log Window (Ctrl+L)" [ref=e35]:
+      - img [ref=e36]
+  - generic [ref=e39]:
+    - generic [ref=e41]:
+      - generic [ref=e43]: No project loaded
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - button "Items" [disabled] [ref=e48]
+          - button "Outfits" [disabled] [ref=e49]
+          - button "Effects" [disabled] [ref=e50]
+          - button "Missiles" [disabled] [ref=e51]
+        - generic [ref=e52]:
+          - button "List view" [ref=e53]:
+            - img [ref=e54]
+          - button "Grid view" [ref=e57]:
+            - img [ref=e58]
+          - textbox "Filter by ID or name..." [disabled] [ref=e62]
+        - generic [ref=e65]: No project loaded
+        - generic [ref=e67]:
+          - button "|‹" [disabled]
+          - button "«" [disabled]
+          - button "‹" [disabled]
+          - spinbutton [disabled] [ref=e68]: "0"
+          - button "›" [disabled]
+          - button "»" [disabled]
+          - button "›|" [disabled]
+        - generic [ref=e69]:
+          - button "Replace" [disabled] [ref=e70]:
+            - img [ref=e71]
+          - button "Import" [disabled] [ref=e74]:
+            - img [ref=e75]
+          - button "Export" [disabled] [ref=e78]:
+            - img [ref=e79]
+          - button "Edit" [disabled] [ref=e82]:
+            - img [ref=e83]
+          - button "Duplicate" [disabled] [ref=e86]:
+            - img [ref=e87]
+          - button "New" [disabled] [ref=e90]:
+            - img [ref=e91]
+          - button "Remove" [disabled] [ref=e94]:
+            - img [ref=e95]
+          - button "Find" [disabled] [ref=e98]:
+            - img [ref=e99]
+      - generic [ref=e104]:
+        - generic [ref=e106]: Edit
+        - generic [ref=e108]: Edit
+      - generic [ref=e111]:
+        - generic [ref=e113]: Sprites
+        - generic [ref=e115]: No object selected
+    - generic [ref=e116]:
+      - generic [ref=e118]:
+        - generic [ref=e119]: Log Window
+        - generic [ref=e120]:
+          - button "Clear" [ref=e121]
+          - button "Close" [ref=e122]:
+            - img [ref=e123]
+      - generic [ref=e127]: None
+  - generic [ref=e129]: No project loaded
+  - generic [active] [ref=e131]:
+    - generic [ref=e132]:
+      - heading "Create Asset Files" [level=2] [ref=e133]
+      - button "Close" [ref=e134]:
+        - img [ref=e135]
+    - generic [ref=e139]:
+      - generic [ref=e140]:
+        - generic [ref=e141]: Version
+        - generic [ref=e143]:
+          - generic [ref=e144]: Version
+          - combobox [ref=e145]:
+            - option "Select version..." [selected]
+            - option "7.10"
+            - option "7.30"
+            - option "7.40"
+            - option "7.50"
+            - option "7.55"
+            - option "7.60"
+            - option "7.70"
+            - option "7.80"
+            - option "7.90"
+            - option "7.92"
+            - option "8.00"
+            - option "8.10"
+            - option "8.11"
+            - option "8.20"
+            - option "8.30"
+            - option "8.40"
+            - option "8.41"
+            - option "8.42"
+            - option "8.50 v1"
+            - option "8.50 v2"
+            - option "8.50 v3"
+            - option "8.52"
+            - option "8.53"
+            - option "8.54 v1"
+            - option "8.54 v2"
+            - option "8.54 v3"
+            - option "8.55"
+            - option "8.60 v1"
+            - option "8.60 v2"
+            - option "8.61"
+            - option "8.62"
+            - option "8.70"
+            - option "8.71"
+            - option "8.72"
+            - option "9.00"
+            - option "9.10"
+            - option "9.20"
+            - option "9.40"
+            - option "9.44 v0"
+            - option "9.44 v1"
+            - option "9.44 v2"
+            - option "9.44 v3"
+            - option "9.46"
+            - option "9.50"
+            - option "9.52"
+            - option "9.53"
+            - option "9.54"
+            - option "9.60"
+            - option "9.61"
+            - option "9.63"
+            - option "9.70"
+            - option "9.80"
+            - option "9.81"
+            - option "9.82"
+            - option "9.83"
+            - option "9.85"
+            - option "9.86"
+            - option "10.10"
+            - option "10.20"
+            - option "10.21"
+            - option "10.30"
+            - option "10.31"
+            - option "10.32"
+            - option "10.34"
+            - option "10.35"
+            - option "10.36"
+            - option "10.37"
+            - option "10.38"
+            - option "10.39"
+            - option "10.40"
+            - option "10.41"
+            - option "10.50"
+            - option "10.51"
+            - option "10.52"
+            - option "10.53"
+            - option "10.54"
+            - option "10.55"
+            - option "10.56"
+            - option "10.57"
+            - option "10.58"
+            - option "10.59"
+            - option "10.60"
+            - option "10.61"
+            - option "10.62"
+            - option "10.63"
+            - option "10.64"
+            - option "10.70"
+            - option "10.71"
+            - option "10.72"
+            - option "10.73"
+            - option "10.74"
+            - option "10.75"
+            - option "10.76"
+            - option "10.77"
+            - option "10.90"
+            - option "10.91"
+            - option "10.92"
+            - option "10.93 test"
+            - option "10.93"
+            - option "10.94"
+            - option "10.95"
+            - option "10.98"
+            - option "10.99"
+            - option "13.10"
+      - generic [ref=e146]:
+        - generic [ref=e147]: Options
+        - generic [ref=e149]:
+          - generic [ref=e150]: Sprite Dimension
+          - combobox [ref=e151]:
+            - option "32x32" [selected]
+            - option "64x64"
+            - option "128x128"
+            - option "256x256"
+      - generic [ref=e152]:
+        - generic [ref=e153]: Options
+        - generic [ref=e155]:
+          - generic [ref=e156] [cursor=pointer]:
+            - checkbox "Extended" [ref=e157]
+            - generic [ref=e158]: Extended
+          - generic [ref=e159] [cursor=pointer]:
+            - checkbox "Transparency" [ref=e160]
+            - generic [ref=e161]: Transparency
+          - generic [ref=e162] [cursor=pointer]:
+            - checkbox "Improved Animations" [ref=e163]
+            - generic [ref=e164]: Improved Animations
+          - generic [ref=e165] [cursor=pointer]:
+            - checkbox "Frame Groups" [ref=e166]
+            - generic [ref=e167]: Frame Groups
+    - generic [ref=e168]:
+      - button "Cancel" [ref=e169] [cursor=pointer]
+      - button "Confirm" [disabled] [ref=e170]
+```

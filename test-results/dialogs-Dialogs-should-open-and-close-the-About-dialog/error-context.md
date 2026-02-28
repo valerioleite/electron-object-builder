@@ -1,0 +1,96 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - button "New (Ctrl+N)" [ref=e5]:
+      - img [ref=e6]
+    - button "Open (Ctrl+O)" [ref=e9]:
+      - img [ref=e10]
+    - button "Compile (Ctrl+S)" [disabled] [ref=e13]:
+      - img [ref=e14]
+    - button "Compile As... (Ctrl+Shift+S)" [disabled] [ref=e17]:
+      - img [ref=e18]
+    - button "Object Viewer" [ref=e22]:
+      - img [ref=e23]
+    - button "Sprites" [ref=e26]:
+      - img [ref=e27]
+    - button "Animation Editor" [ref=e30]:
+      - img [ref=e31]
+    - button "Log Window (Ctrl+L)" [ref=e35]:
+      - img [ref=e36]
+  - generic [ref=e39]:
+    - generic [ref=e41]:
+      - generic [ref=e43]: No project loaded
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - button "Items" [disabled] [ref=e48]
+          - button "Outfits" [disabled] [ref=e49]
+          - button "Effects" [disabled] [ref=e50]
+          - button "Missiles" [disabled] [ref=e51]
+        - generic [ref=e52]:
+          - button "List view" [ref=e53]:
+            - img [ref=e54]
+          - button "Grid view" [ref=e57]:
+            - img [ref=e58]
+          - textbox "Filter by ID or name..." [disabled] [ref=e62]
+        - generic [ref=e65]: No project loaded
+        - generic [ref=e67]:
+          - button "|‹" [disabled]
+          - button "«" [disabled]
+          - button "‹" [disabled]
+          - spinbutton [disabled] [ref=e68]: "0"
+          - button "›" [disabled]
+          - button "»" [disabled]
+          - button "›|" [disabled]
+        - generic [ref=e69]:
+          - button "Replace" [disabled] [ref=e70]:
+            - img [ref=e71]
+          - button "Import" [disabled] [ref=e74]:
+            - img [ref=e75]
+          - button "Export" [disabled] [ref=e78]:
+            - img [ref=e79]
+          - button "Edit" [disabled] [ref=e82]:
+            - img [ref=e83]
+          - button "Duplicate" [disabled] [ref=e86]:
+            - img [ref=e87]
+          - button "New" [disabled] [ref=e90]:
+            - img [ref=e91]
+          - button "Remove" [disabled] [ref=e94]:
+            - img [ref=e95]
+          - button "Find" [disabled] [ref=e98]:
+            - img [ref=e99]
+      - generic [ref=e104]:
+        - generic [ref=e106]: Edit
+        - generic [ref=e108]: Edit
+      - generic [ref=e111]:
+        - generic [ref=e113]: Sprites
+        - generic [ref=e115]: No object selected
+    - generic [ref=e116]:
+      - generic [ref=e118]:
+        - generic [ref=e119]: Log Window
+        - generic [ref=e120]:
+          - button "Clear" [ref=e121]
+          - button "Close" [ref=e122]:
+            - img [ref=e123]
+      - generic [ref=e127]: None
+  - generic [ref=e129]: No project loaded
+  - generic [active] [ref=e131]:
+    - generic [ref=e132]:
+      - heading "About Object Builder" [level=2] [ref=e133]
+      - button "Close" [ref=e134]:
+        - img [ref=e135]
+    - generic [ref=e139]:
+      - generic [ref=e140]:
+        - heading "Object Builder" [level=2] [ref=e141]
+        - paragraph [ref=e142]: Version 0.1.0
+      - paragraph [ref=e143]: Copyright (c) 2014-2026 Contributors
+      - paragraph [ref=e144]: This software is licensed under the MIT License. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
+      - generic [ref=e145]:
+        - generic [ref=e146]: "Supported By:"
+        - generic [ref=e147]:
+          - button "dbko-inferno.pl" [ref=e148]
+          - button "otpokemon.com" [ref=e149]
+      - paragraph [ref=e150]: Built with Electron + React + TypeScript
+    - button "Close" [ref=e152] [cursor=pointer]
+```

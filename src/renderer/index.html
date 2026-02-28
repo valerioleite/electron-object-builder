@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object Builder</title>
+    <script>
+      // Apply theme class + background before first paint to prevent white flash
+      (function () {
+        var theme = localStorage.getItem('ob-theme') || 'system'
+        var resolved = theme
+        if (theme === 'system') {
+          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.classList.add(resolved)
+        document.documentElement.style.backgroundColor = resolved === 'dark' ? '#121212' : '#fafafa'
+        document.documentElement.style.color = resolved === 'dark' ? '#cccccc' : '#1f2937'
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
