@@ -25,6 +25,18 @@ Object Builder allows you to open, inspect, edit, and compile Tibia client data 
 - **Light/Dark theme** &mdash; System-aware theme with manual override
 - **Cross-platform** &mdash; Windows, macOS (Intel + Apple Silicon), and Linux
 
+## Download
+
+Pre-built installers are available for Windows, macOS, and Linux on the [latest release](https://github.com/valerioleite/electron-object-builder/releases/latest) page.
+
+| Platform | Format | Architecture |
+|---|---|---|
+| Windows | `.exe` (NSIS installer) | x64 |
+| Windows | `.exe` (portable) | x64 |
+| macOS | `.dmg` | x64, arm64 (Apple Silicon) |
+| Linux | `.AppImage` | x64 |
+| Linux | `.deb` | x64 |
+
 ## Requirements
 
 - [Node.js](https://nodejs.org/) 18 or later
@@ -34,8 +46,8 @@ Object Builder allows you to open, inspect, edit, and compile Tibia client data 
 
 ```bash
 # Clone the repository
-git clone https://github.com/nicollascs/object-builder.git
-cd object-builder/electron
+git clone https://github.com/valerioleite/electron-object-builder.git
+cd electron-object-builder
 
 # Install dependencies
 npm install
