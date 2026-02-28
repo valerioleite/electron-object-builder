@@ -42,10 +42,7 @@ function makeThing(id: number, category: ThingCategory = ThingCategory.ITEM): Th
   return t
 }
 
-function makeThingData(
-  id: number,
-  category: ThingCategory = ThingCategory.ITEM
-): ThingData {
+function makeThingData(id: number, category: ThingCategory = ThingCategory.ITEM): ThingData {
   const thing = makeThing(id, category)
   thing.frameGroups[FrameGroupType.DEFAULT] = createFrameGroup()
   return createThingData(300, 1056, thing, new Map())
@@ -357,9 +354,7 @@ describe('useEditorStore', () => {
     })
 
     it('supports multiple undo/redo cycles', () => {
-      const ops = Array.from({ length: 3 }, (_, i) =>
-        makeOperation('update-thing', `op${i}`)
-      )
+      const ops = Array.from({ length: 3 }, (_, i) => makeOperation('update-thing', `op${i}`))
       ops.forEach((op) => useEditorStore.getState().pushUndo(op))
 
       // Undo all 3

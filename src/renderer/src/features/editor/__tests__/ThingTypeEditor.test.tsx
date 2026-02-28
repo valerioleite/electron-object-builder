@@ -8,12 +8,7 @@ import React, { act } from 'react'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { ThingTypeEditor } from '../ThingTypeEditor'
-import {
-  resetAppStore,
-  resetEditorStore,
-  useAppStore,
-  useEditorStore
-} from '../../../stores'
+import { resetAppStore, resetEditorStore, useAppStore, useEditorStore } from '../../../stores'
 import {
   ThingCategory,
   createThingType,
@@ -42,10 +37,7 @@ function makeThing(
   return t
 }
 
-function makeThingData(
-  thing: ThingType,
-  clientVersion = 1060
-): ThingData {
+function makeThingData(thing: ThingType, clientVersion = 1060): ThingData {
   return {
     obdVersion: 0,
     clientVersion,
@@ -375,7 +367,11 @@ describe('ThingTypeEditor', () => {
 
   describe('conditional fields', () => {
     it('shows light level/color when Has Light is checked', () => {
-      loadEditorWithThing(100, ThingCategory.ITEM, 1060, { hasLight: true, lightLevel: 5, lightColor: 100 })
+      loadEditorWithThing(100, ThingCategory.ITEM, 1060, {
+        hasLight: true,
+        lightLevel: 5,
+        lightColor: 100
+      })
       render(<ThingTypeEditor />)
       switchToPropertiesTab()
       expect(screen.getByText('Light Intensity')).toBeInTheDocument()
@@ -437,7 +433,10 @@ describe('ThingTypeEditor', () => {
     })
 
     it('shows default action dropdown when Has Default Action is checked', () => {
-      loadEditorWithThing(100, ThingCategory.ITEM, 1060, { hasDefaultAction: true, defaultAction: 2 })
+      loadEditorWithThing(100, ThingCategory.ITEM, 1060, {
+        hasDefaultAction: true,
+        defaultAction: 2
+      })
       render(<ThingTypeEditor />)
       switchToPropertiesTab()
       expect(screen.getByText('Action Type')).toBeInTheDocument()

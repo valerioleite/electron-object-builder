@@ -110,7 +110,8 @@ export function SpriteRenderer({
   // Resolve frame group
   const thing = thingData?.thing
   const frameGroup = thing?.frameGroups[frameGroupType] ?? thing?.frameGroups[FGT.DEFAULT]
-  const inlineSprites = thingData?.sprites.get(frameGroupType) ?? thingData?.sprites.get(FGT.DEFAULT) ?? []
+  const inlineSprites =
+    thingData?.sprites.get(frameGroupType) ?? thingData?.sprites.get(FGT.DEFAULT) ?? []
   const isOutfit = thing?.category === ThingCategory.OUTFIT
 
   // Create sprite pixel provider
@@ -228,13 +229,7 @@ export function SpriteRenderer({
           if (offCtx) {
             offCtx.putImageData(imageData, 0, 0)
             ctx.imageSmoothingEnabled = false
-            ctx.drawImage(
-              offscreen,
-              panOffset.x,
-              panOffset.y,
-              width,
-              height
-            )
+            ctx.drawImage(offscreen, panOffset.x, panOffset.y, width, height)
             // Release offscreen canvas pixel buffer
             offscreen.width = 0
             offscreen.height = 0
@@ -248,8 +243,8 @@ export function SpriteRenderer({
 
   // Cleanup canvas on unmount to release pixel buffer
   useEffect(() => {
+    const canvas = canvasRef.current
     return () => {
-      const canvas = canvasRef.current
       if (canvas) {
         canvas.width = 0
         canvas.height = 0

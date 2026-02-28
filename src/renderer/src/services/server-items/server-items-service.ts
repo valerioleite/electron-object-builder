@@ -101,8 +101,8 @@ export function loadServerItems(options: LoadServerItemsOptions): LoadServerItem
 
   // Read XML if provided
   if (xmlContent && _itemList) {
-    const knownAttributes = _attributeServer ? getAttributeKeysInOrder() ?? [] : undefined
-    const knownTagAttributes = _attributeServer ? getTagAttributeKeys() ?? [] : undefined
+    const knownAttributes = _attributeServer ? (getAttributeKeysInOrder() ?? []) : undefined
+    const knownTagAttributes = _attributeServer ? (getTagAttributeKeys() ?? []) : undefined
 
     const xmlResult = readItemsXml(xmlContent, _itemList, {
       knownAttributes: knownAttributes ?? undefined,

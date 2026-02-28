@@ -16,7 +16,13 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, DialogButton, FieldGroup, NumberInputField, SelectField } from '../../components/Modal'
+import {
+  Modal,
+  DialogButton,
+  FieldGroup,
+  NumberInputField,
+  SelectField
+} from '../../components/Modal'
 import {
   IconOpen,
   IconSave,
@@ -99,7 +105,8 @@ function drawCheckerboard(
 ): void {
   for (let y = 0; y < height; y += tileSize) {
     for (let x = 0; x < width; x += tileSize) {
-      ctx.fillStyle = ((x / tileSize + y / tileSize) % 2 === 0) ? CHECKERBOARD_LIGHT : CHECKERBOARD_DARK
+      ctx.fillStyle =
+        (x / tileSize + y / tileSize) % 2 === 0 ? CHECKERBOARD_LIGHT : CHECKERBOARD_DARK
       ctx.fillRect(x, y, tileSize, tileSize)
     }
   }
@@ -223,28 +230,61 @@ function AnimationEditorToolbar({
 
   return (
     <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border bg-bg-secondary px-2">
-      <button className={`${btnStyle} gap-1`} onClick={onOpen} title={`${t('labels.open')} (Ctrl+O)`}>
+      <button
+        className={`${btnStyle} gap-1`}
+        onClick={onOpen}
+        title={`${t('labels.open')} (Ctrl+O)`}
+      >
         <IconOpen size={14} /> {t('labels.open')}
       </button>
-      <button className={`${btnStyle} gap-1`} onClick={onSave} disabled={!hasFrames} title={`${t('labels.save')} (Ctrl+S)`}>
+      <button
+        className={`${btnStyle} gap-1`}
+        onClick={onSave}
+        disabled={!hasFrames}
+        title={`${t('labels.save')} (Ctrl+S)`}
+      >
         <IconSave size={14} /> {t('labels.save')}
       </button>
       <div className="mx-1 h-4 w-px bg-border" />
-      <button className={`${btnStyle} gap-1`} onClick={onPaste} title={`${t('labels.paste')} (Ctrl+V)`}>
+      <button
+        className={`${btnStyle} gap-1`}
+        onClick={onPaste}
+        title={`${t('labels.paste')} (Ctrl+V)`}
+      >
         <IconPaste size={14} /> {t('labels.paste')}
       </button>
       <div className="mx-1 h-4 w-px bg-border" />
-      <button className={btnStyle} onClick={onRotateRight} disabled={!hasImage} title={t('labels.rotateRight90')}>
+      <button
+        className={btnStyle}
+        onClick={onRotateRight}
+        disabled={!hasImage}
+        title={t('labels.rotateRight90')}
+      >
         <IconRotateRight size={14} />
       </button>
-      <button className={btnStyle} onClick={onRotateLeft} disabled={!hasImage} title={t('labels.rotateLeft90')}>
+      <button
+        className={btnStyle}
+        onClick={onRotateLeft}
+        disabled={!hasImage}
+        title={t('labels.rotateLeft90')}
+      >
         <IconRotateLeft size={14} />
       </button>
       <div className="mx-1 h-4 w-px bg-border" />
-      <button className={btnStyle} onClick={onFlipH} disabled={!hasImage} title={t('labels.flipHorizontal')}>
+      <button
+        className={btnStyle}
+        onClick={onFlipH}
+        disabled={!hasImage}
+        title={t('labels.flipHorizontal')}
+      >
         <IconFlipHorizontal size={14} />
       </button>
-      <button className={btnStyle} onClick={onFlipV} disabled={!hasImage} title={t('labels.flipVertical')}>
+      <button
+        className={btnStyle}
+        onClick={onFlipV}
+        disabled={!hasImage}
+        title={t('labels.flipVertical')}
+      >
         <IconFlipVertical size={14} />
       </button>
     </div>
@@ -292,7 +332,12 @@ function ImageCanvas({ imageData, grid, zoom, onDrop }: ImageCanvasProps): React
     ctx.imageSmoothingEnabled = false
 
     // Checkerboard
-    drawCheckerboard(ctx, canvas.width, canvas.height, Math.max(4, Math.round(CHECKERBOARD_SIZE * zoom)))
+    drawCheckerboard(
+      ctx,
+      canvas.width,
+      canvas.height,
+      Math.max(4, Math.round(CHECKERBOARD_SIZE * zoom))
+    )
 
     // Image
     const tmp = document.createElement('canvas')
@@ -358,10 +403,7 @@ function ImageCanvas({ imageData, grid, zoom, onDrop }: ImageCanvasProps): React
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <canvas
-        ref={canvasRef}
-        style={{ imageRendering: 'pixelated', display: 'block' }}
-      />
+      <canvas ref={canvasRef} style={{ imageRendering: 'pixelated', display: 'block' }} />
     </div>
   )
 }
@@ -393,7 +435,10 @@ function FrameTimeline({
       const scrollTarget = playbackFrame * itemWidth
       const { scrollLeft, clientWidth } = container
       if (scrollTarget < scrollLeft || scrollTarget > scrollLeft + clientWidth - itemWidth) {
-        container.scrollTo({ left: Math.max(0, scrollTarget - clientWidth / 2), behavior: 'smooth' })
+        container.scrollTo({
+          left: Math.max(0, scrollTarget - clientWidth / 2),
+          behavior: 'smooth'
+        })
       }
     }
   }, [playbackFrame, frames.length])
@@ -498,10 +543,20 @@ function PlaybackControls({
 
   return (
     <div className="flex h-8 shrink-0 items-center gap-1 border-t border-border bg-bg-secondary px-2">
-      <button className={btn} onClick={onFirstFrame} disabled={!hasFrames} title={t('labels.firstFrame')}>
+      <button
+        className={btn}
+        onClick={onFirstFrame}
+        disabled={!hasFrames}
+        title={t('labels.firstFrame')}
+      >
         <IconFirst size={14} />
       </button>
-      <button className={btn} onClick={onPrevFrame} disabled={!hasFrames} title={t('labels.previousFrame')}>
+      <button
+        className={btn}
+        onClick={onPrevFrame}
+        disabled={!hasFrames}
+        title={t('labels.previousFrame')}
+      >
         <IconPrevious size={14} />
       </button>
       <button
@@ -512,19 +567,39 @@ function PlaybackControls({
       >
         {isPlaying ? <IconPause size={14} /> : <IconPlay size={14} />}
       </button>
-      <button className={btn} onClick={onNextFrame} disabled={!hasFrames} title={t('labels.nextFrame')}>
+      <button
+        className={btn}
+        onClick={onNextFrame}
+        disabled={!hasFrames}
+        title={t('labels.nextFrame')}
+      >
         <IconNext size={14} />
       </button>
-      <button className={btn} onClick={onLastFrame} disabled={!hasFrames} title={t('labels.lastFrame')}>
+      <button
+        className={btn}
+        onClick={onLastFrame}
+        disabled={!hasFrames}
+        title={t('labels.lastFrame')}
+      >
         <IconLast size={14} />
       </button>
 
       <div className="mx-2 h-4 w-px bg-border" />
 
-      <button className={btn} onClick={onDuplicate} disabled={!canDuplicate} title={t('labels.duplicateFrame')}>
+      <button
+        className={btn}
+        onClick={onDuplicate}
+        disabled={!canDuplicate}
+        title={t('labels.duplicateFrame')}
+      >
         <IconDuplicateFrames size={14} />
       </button>
-      <button className={btn} onClick={onDelete} disabled={!canDelete} title={t('labels.deleteFrame')}>
+      <button
+        className={btn}
+        onClick={onDelete}
+        disabled={!canDelete}
+        title={t('labels.deleteFrame')}
+      >
         <IconDelete size={14} />
       </button>
     </div>
@@ -542,7 +617,12 @@ interface AnimationPreviewProps {
   cellHeight: number
 }
 
-function AnimationPreview({ frames, currentFrame, cellWidth, cellHeight }: AnimationPreviewProps): React.JSX.Element {
+function AnimationPreview({
+  frames,
+  currentFrame,
+  cellWidth,
+  cellHeight
+}: AnimationPreviewProps): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const displaySize = 96
@@ -769,19 +849,21 @@ export function AnimationEditorDialog({
   const hasFrames = frames.length > 0
   const hasSelection = selectedIndices.size > 0
 
-  // Reset state when dialog opens
-  useEffect(() => {
-    if (open) {
-      setSourceImage(null)
-      setCategory(ThingCategory.ITEM)
-      setGrid({ ...DEFAULT_GRID })
-      setZoom(1)
-      setFrames([])
-      setSelectedIndices(new Set())
-      setIsPlaying(false)
-      setCurrentFrame(0)
-    }
-  }, [open])
+  // Reset state when dialog opens (render-time state adjustment)
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
+    setSourceImage(null)
+    setCategory(ThingCategory.ITEM)
+    setGrid({ ...DEFAULT_GRID })
+    setZoom(1)
+    setFrames([])
+    setSelectedIndices(new Set())
+    setIsPlaying(false)
+    setCurrentFrame(0)
+  }
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
 
   // -------------------------------------------------------------------------
   // Image loading
@@ -808,7 +890,13 @@ export function AnimationEditorDialog({
       const cellH = 32
       const cols = Math.max(1, Math.floor(img.width / cellW))
       const rows = Math.max(1, Math.floor(img.height / cellH))
-      setGrid((prev) => ({ ...prev, columns: Math.min(cols, 20), rows: Math.min(rows, 20), offsetX: 0, offsetY: 0 }))
+      setGrid((prev) => ({
+        ...prev,
+        columns: Math.min(cols, 20),
+        rows: Math.min(rows, 20),
+        offsetX: 0,
+        offsetY: 0
+      }))
     }
 
     img.onerror = () => {
@@ -1226,12 +1314,7 @@ export function AnimationEditorDialog({
           {/* Right: Canvas + Frame strip + Playback controls */}
           <div className="flex flex-1 flex-col overflow-hidden">
             {/* Image canvas */}
-            <ImageCanvas
-              imageData={sourceImage}
-              grid={grid}
-              zoom={zoom}
-              onDrop={handleImageDrop}
-            />
+            <ImageCanvas imageData={sourceImage} grid={grid} zoom={zoom} onDrop={handleImageDrop} />
 
             {/* Frame timeline */}
             <FrameTimeline

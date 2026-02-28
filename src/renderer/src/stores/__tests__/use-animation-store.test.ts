@@ -36,10 +36,7 @@ import {
 // ---------------------------------------------------------------------------
 
 /** Create a frame group with N frames and given properties. */
-function makeFrameGroup(
-  frames: number,
-  opts?: Partial<FrameGroup>
-): FrameGroup {
+function makeFrameGroup(frames: number, opts?: Partial<FrameGroup>): FrameGroup {
   const fg = createFrameGroup()
   fg.frames = frames
   fg.isAnimation = frames > 1
@@ -460,10 +457,7 @@ describe('update (animation tick)', () => {
 
   it('loops infinitely when loopCount is 0', () => {
     const fg = makeFrameGroup(2, { loopCount: 0 })
-    fg.frameDurations = [
-      createFrameDuration(100, 100),
-      createFrameDuration(100, 100)
-    ]
+    fg.frameDurations = [createFrameDuration(100, 100), createFrameDuration(100, 100)]
     state().setFrameGroup(fg)
     state().play()
 
@@ -479,10 +473,7 @@ describe('update (animation tick)', () => {
 
   it('completes after N loops when loopCount > 0', () => {
     const fg = makeFrameGroup(2, { loopCount: 1 })
-    fg.frameDurations = [
-      createFrameDuration(100, 100),
-      createFrameDuration(100, 100)
-    ]
+    fg.frameDurations = [createFrameDuration(100, 100), createFrameDuration(100, 100)]
     state().setFrameGroup(fg)
     state().play()
 

@@ -240,7 +240,10 @@ export function createThingType(): ThingType {
   }
 }
 
-export function getThingFrameGroup(thing: ThingType, groupType: FrameGroupType): FrameGroup | undefined {
+export function getThingFrameGroup(
+  thing: ThingType,
+  groupType: FrameGroupType
+): FrameGroup | undefined {
   return thing.frameGroups[groupType]
 }
 
@@ -493,7 +496,12 @@ export function removeThingFrameGroupState(
 
   // Sprites per single frame (using potentially reduced patternZ)
   const spritesPerFrame =
-    normal.width * normal.height * normal.layers * normal.patternX * normal.patternY * normal.patternZ
+    normal.width *
+    normal.height *
+    normal.layers *
+    normal.patternX *
+    normal.patternY *
+    normal.patternZ
 
   const newSpriteIndex: number[] = []
 

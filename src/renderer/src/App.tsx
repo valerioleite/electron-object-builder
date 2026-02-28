@@ -33,7 +33,13 @@ import {
 import type { LoadProjectParams } from '../../shared/project-state'
 import { useAppStore, useEditorStore, useSpriteStore, selectUI } from './stores'
 import { FrameGroupType } from './types/animation'
-import { ThingCategory, type ClientFeatures, type ClientInfo, createClientInfo, ClipboardAction } from './types'
+import {
+  ThingCategory,
+  type ClientFeatures,
+  type ClientInfo,
+  createClientInfo,
+  ClipboardAction
+} from './types'
 import type { ThingData } from './types/things'
 import { getDefaultDuration } from './types/settings'
 import { Toolbar } from './components/Toolbar'
@@ -89,7 +95,30 @@ import i18n from './i18n'
 // Dialog state type
 // ---------------------------------------------------------------------------
 
-type ActiveDialog = 'create' | 'open' | 'compileAs' | 'merge' | 'preferences' | 'about' | 'error' | 'find' | 'export' | 'import' | 'bulkEdit' | 'animationEditor' | 'objectViewer' | 'slicer' | 'assetStore' | 'lookTypeGenerator' | 'spritesOptimizer' | 'frameDurationsOptimizer' | 'frameGroupsConverter' | 'confirmClose' | 'confirmThingSwitch' | 'recovery' | null
+type ActiveDialog =
+  | 'create'
+  | 'open'
+  | 'compileAs'
+  | 'merge'
+  | 'preferences'
+  | 'about'
+  | 'error'
+  | 'find'
+  | 'export'
+  | 'import'
+  | 'bulkEdit'
+  | 'animationEditor'
+  | 'objectViewer'
+  | 'slicer'
+  | 'assetStore'
+  | 'lookTypeGenerator'
+  | 'spritesOptimizer'
+  | 'frameDurationsOptimizer'
+  | 'frameGroupsConverter'
+  | 'confirmClose'
+  | 'confirmThingSwitch'
+  | 'recovery'
+  | null
 
 interface RecoveryInfo {
   datFilePath: string
@@ -250,25 +279,22 @@ export function App(): React.JSX.Element {
   }, [])
 
   // Handle actions from ThingListPanel action bar (open corresponding dialogs)
-  const handleThingListAction = useCallback(
-    (action: ThingListAction) => {
-      switch (action) {
-        case 'import':
-          setActiveDialog('import')
-          break
-        case 'export':
-          setActiveDialog('export')
-          break
-        case 'replace':
-          setActiveDialog('import')
-          break
-        case 'find':
-          setActiveDialog('find')
-          break
-      }
-    },
-    []
-  )
+  const handleThingListAction = useCallback((action: ThingListAction) => {
+    switch (action) {
+      case 'import':
+        setActiveDialog('import')
+        break
+      case 'export':
+        setActiveDialog('export')
+        break
+      case 'replace':
+        setActiveDialog('import')
+        break
+      case 'find':
+        setActiveDialog('find')
+        break
+    }
+  }, [])
 
   // -------------------------------------------------------------------------
   // Dialog handlers
@@ -276,7 +302,10 @@ export function App(): React.JSX.Element {
 
   const handleCreateConfirm = useCallback(
     async (result: CreateAssetsResult) => {
-      addLog('info', `Creating new project: v${result.version.valueStr}, ${result.spriteDimension.value}`)
+      addLog(
+        'info',
+        `Creating new project: v${result.version.valueStr}, ${result.spriteDimension.value}`
+      )
 
       clearThumbnailCache()
       useAppStore.getState().setLocked(true)
@@ -469,7 +498,11 @@ export function App(): React.JSX.Element {
 
         // Build ClientInfo
         setLoadingLabel('Populating stores...')
-        const fileName = result.datFile.split('/').pop()?.replace(/\.dat$/i, '') ?? ''
+        const fileName =
+          result.datFile
+            .split('/')
+            .pop()
+            ?.replace(/\.dat$/i, '') ?? ''
         const clientInfo: ClientInfo = {
           ...createClientInfo(),
           clientVersion: result.version.value,
@@ -540,7 +573,10 @@ export function App(): React.JSX.Element {
 
   const handleCompileAsConfirm = useCallback(
     (result: CompileAssetsResult) => {
-      addLog('info', `Compiling as: ${result.filesName} v${result.version.valueStr} to ${result.directory}`)
+      addLog(
+        'info',
+        `Compiling as: ${result.filesName} v${result.version.valueStr} to ${result.directory}`
+      )
       // TODO: Wire to actual project compilation logic in future steps
     },
     [addLog]
@@ -562,7 +598,9 @@ export function App(): React.JSX.Element {
         })
       }
       // Sync clipboard action setting to editor store
-      useEditorStore.getState().setClipboardAction(settings.thingListClipboardAction as ClipboardAction)
+      useEditorStore
+        .getState()
+        .setClipboardAction(settings.thingListClipboardAction as ClipboardAction)
       // Sync autosave setting
       autosaveSettingRef.current = settings.autosaveThingChanges
       // Sync theme setting
@@ -585,21 +623,21 @@ export function App(): React.JSX.Element {
 
   const handleFindSprites = useCallback(
     (filters: FindSpriteFilters) => {
-      addLog('info', `Searching sprites: unused=${filters.unusedSprites}, empty=${filters.emptySprites}`)
+      addLog(
+        'info',
+        `Searching sprites: unused=${filters.unusedSprites}, empty=${filters.emptySprites}`
+      )
       // TODO: Wire to actual sprite search logic in future steps
     },
     [addLog]
   )
 
-  const handleFindSelectThing = useCallback(
-    (id: number, category: ThingCategory) => {
-      const { setCurrentCategory, selectThing } = useAppStore.getState()
-      setCurrentCategory(category)
-      selectThing(id)
-      setActiveDialog(null)
-    },
-    []
-  )
+  const handleFindSelectThing = useCallback((id: number, category: ThingCategory) => {
+    const { setCurrentCategory, selectThing } = useAppStore.getState()
+    setCurrentCategory(category)
+    selectThing(id)
+    setActiveDialog(null)
+  }, [])
 
   const handleExportConfirm = useCallback(
     (result: ExportDialogResult) => {
@@ -797,7 +835,9 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     if (!window.api?.settings?.load) return
     window.api.settings.load().then((settings) => {
-      useEditorStore.getState().setClipboardAction(settings.thingListClipboardAction as ClipboardAction)
+      useEditorStore
+        .getState()
+        .setClipboardAction(settings.thingListClipboardAction as ClipboardAction)
       // Sync i18n language from persisted settings
       if (settings.language && settings.language !== i18n.language) {
         i18n.changeLanguage(settings.language)
@@ -858,13 +898,17 @@ export function App(): React.JSX.Element {
         open={activeDialog === 'compileAs'}
         onClose={closeDialog}
         onConfirm={handleCompileAsConfirm}
-        currentVersion={clientInfo ? {
-          value: clientInfo.clientVersion,
-          valueStr: clientInfo.clientVersionStr,
-          datSignature: clientInfo.datSignature,
-          sprSignature: clientInfo.sprSignature,
-          otbVersion: 0
-        } : null}
+        currentVersion={
+          clientInfo
+            ? {
+                value: clientInfo.clientVersion,
+                valueStr: clientInfo.clientVersionStr,
+                datSignature: clientInfo.datSignature,
+                sprSignature: clientInfo.sprSignature,
+                otbVersion: 0
+              }
+            : null
+        }
         serverItemsLoaded={clientInfo?.otbLoaded ?? false}
       />
 
@@ -905,13 +949,17 @@ export function App(): React.JSX.Element {
         onClose={closeDialog}
         onConfirm={handleExportConfirm}
         enableObdFormat={true}
-        currentVersion={clientInfo ? {
-          value: clientInfo.clientVersion,
-          valueStr: clientInfo.clientVersionStr,
-          datSignature: clientInfo.datSignature,
-          sprSignature: clientInfo.sprSignature,
-          otbVersion: 0
-        } : null}
+        currentVersion={
+          clientInfo
+            ? {
+                value: clientInfo.clientVersion,
+                valueStr: clientInfo.clientVersionStr,
+                datSignature: clientInfo.datSignature,
+                sprSignature: clientInfo.sprSignature,
+                otbVersion: 0
+              }
+            : null
+        }
       />
 
       <ImportThingDialog
@@ -930,35 +978,17 @@ export function App(): React.JSX.Element {
         otbLoaded={clientInfo?.otbLoaded ?? false}
       />
 
-      <AnimationEditorDialog
-        open={activeDialog === 'animationEditor'}
-        onClose={closeDialog}
-      />
+      <AnimationEditorDialog open={activeDialog === 'animationEditor'} onClose={closeDialog} />
 
-      <ObjectViewerDialog
-        open={activeDialog === 'objectViewer'}
-        onClose={closeDialog}
-      />
+      <ObjectViewerDialog open={activeDialog === 'objectViewer'} onClose={closeDialog} />
 
-      <SlicerDialog
-        open={activeDialog === 'slicer'}
-        onClose={closeDialog}
-      />
+      <SlicerDialog open={activeDialog === 'slicer'} onClose={closeDialog} />
 
-      <AssetStoreDialog
-        open={activeDialog === 'assetStore'}
-        onClose={closeDialog}
-      />
+      <AssetStoreDialog open={activeDialog === 'assetStore'} onClose={closeDialog} />
 
-      <LookTypeGeneratorDialog
-        open={activeDialog === 'lookTypeGenerator'}
-        onClose={closeDialog}
-      />
+      <LookTypeGeneratorDialog open={activeDialog === 'lookTypeGenerator'} onClose={closeDialog} />
 
-      <SpritesOptimizerDialog
-        open={activeDialog === 'spritesOptimizer'}
-        onClose={closeDialog}
-      />
+      <SpritesOptimizerDialog open={activeDialog === 'spritesOptimizer'} onClose={closeDialog} />
 
       <FrameDurationsOptimizerDialog
         open={activeDialog === 'frameDurationsOptimizer'}
@@ -1003,7 +1033,12 @@ export function App(): React.JSX.Element {
           </div>
         }
       >
-        <p className="text-sm text-text-primary">{t('alert.saveChanges', { 0: currentCategory, 1: `#${useEditorStore.getState().editingThingData?.thing.id ?? ''}` })}</p>
+        <p className="text-sm text-text-primary">
+          {t('alert.saveChanges', {
+            0: currentCategory,
+            1: `#${useEditorStore.getState().editingThingData?.thing.id ?? ''}`
+          })}
+        </p>
       </Modal>
 
       {/* Recovery dialog (previous session crashed) */}
@@ -1023,9 +1058,7 @@ export function App(): React.JSX.Element {
         <div className="flex flex-col gap-2 text-sm text-text-primary">
           <p>{t('alert.recoveryDetected')}</p>
           {recoveryInfo && (
-            <p className="text-text-secondary truncate">
-              {recoveryInfo.datFilePath}
-            </p>
+            <p className="text-text-secondary truncate">{recoveryInfo.datFilePath}</p>
           )}
         </div>
       </Modal>

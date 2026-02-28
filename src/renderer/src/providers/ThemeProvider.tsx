@@ -87,16 +87,16 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps): React.JSX.Element {
   const [theme, setThemeState] = useState<ThemeSetting>(getInitialTheme)
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    resolveTheme(getInitialTheme())
-  )
+  // Track system theme changes for re-render
+  const [, setSystemThemeTick] = useState(0)
 
-  // Apply theme class to <html> when theme changes
+  // Derive resolved theme at render time (no setState needed)
+  const resolvedTheme = resolveTheme(theme)
+
+  // Apply theme class to <html> when resolved theme changes
   useEffect(() => {
-    const resolved = resolveTheme(theme)
-    setResolvedTheme(resolved)
-    applyThemeClass(resolved)
-  }, [theme])
+    applyThemeClass(resolvedTheme)
+  }, [resolvedTheme])
 
   // Listen for system theme changes (only in 'system' mode)
   useEffect(() => {
@@ -104,9 +104,8 @@ export function ThemeProvider({ children }: ThemeProviderProps): React.JSX.Eleme
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handler = (): void => {
-      const resolved = resolveTheme('system')
-      setResolvedTheme(resolved)
-      applyThemeClass(resolved)
+      // Force re-render so resolveTheme() picks up the new system preference
+      setSystemThemeTick((n) => n + 1)
     }
 
     mediaQuery.addEventListener('change', handler)

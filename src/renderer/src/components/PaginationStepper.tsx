@@ -80,7 +80,10 @@ export function PaginationStepper({
     'flex h-6 w-6 items-center justify-center rounded text-sm font-bold text-text-secondary hover:bg-bg-tertiary hover:text-text-primary disabled:opacity-30 disabled:pointer-events-none shrink-0'
 
   return (
-    <div className="flex w-full items-center justify-center gap-0.5" data-testid="pagination-stepper">
+    <div
+      className="flex w-full items-center justify-center gap-0.5"
+      data-testid="pagination-stepper"
+    >
       <button
         type="button"
         className={btnClass}

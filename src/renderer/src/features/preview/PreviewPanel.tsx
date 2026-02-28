@@ -39,8 +39,14 @@ function InfoSection(): React.JSX.Element | null {
 
   const rows = [
     { label: t('labels.version'), value: clientInfo.clientVersionStr },
-    { label: 'DAT Signature', value: `0x${(clientInfo.datSignature >>> 0).toString(16).toUpperCase()}` },
-    { label: 'SPR Signature', value: `0x${(clientInfo.sprSignature >>> 0).toString(16).toUpperCase()}` },
+    {
+      label: 'DAT Signature',
+      value: `0x${(clientInfo.datSignature >>> 0).toString(16).toUpperCase()}`
+    },
+    {
+      label: 'SPR Signature',
+      value: `0x${(clientInfo.sprSignature >>> 0).toString(16).toUpperCase()}`
+    },
     { label: t('labels.items'), value: items > 0 ? String(items) : '0' },
     { label: t('labels.outfits'), value: outfits > 0 ? String(outfits) : '0' },
     { label: t('labels.effects'), value: effects > 0 ? String(effects) : '0' },
@@ -74,7 +80,10 @@ interface PreviewSectionProps {
   colorizeEnabled: boolean
 }
 
-function PreviewSection({ outfitData, colorizeEnabled }: PreviewSectionProps): React.JSX.Element | null {
+function PreviewSection({
+  outfitData,
+  colorizeEnabled
+}: PreviewSectionProps): React.JSX.Element | null {
   const { t } = useTranslation()
   const editingThingData = useEditorStore(selectEditingThingData)
   const currentCategory = useAppStore((s) => s.currentCategory)
@@ -171,7 +180,9 @@ function PreviewSection({ outfitData, colorizeEnabled }: PreviewSectionProps): R
 
   return (
     <div className="border-b border-border px-2 py-1.5">
-      <div className="mb-1 text-xs font-semibold uppercase text-secondary">{t('labels.preview')}</div>
+      <div className="mb-1 text-xs font-semibold uppercase text-secondary">
+        {t('labels.preview')}
+      </div>
 
       {/* Sprite renderer */}
       <div className="mb-2 flex justify-center">
@@ -308,9 +319,7 @@ function ColorizeSection({
           onChange={(e) => onColorizeToggle(e.target.checked)}
         />
         <span className="text-xs font-semibold uppercase text-secondary">Colorize</span>
-        {!canColorize && (
-          <span className="text-[10px] text-text-muted">(no blend layer)</span>
-        )}
+        {!canColorize && <span className="text-[10px] text-text-muted">(no blend layer)</span>}
       </label>
 
       <div className={`space-y-1 ${controlsDisabled ? 'opacity-40 pointer-events-none' : ''}`}>
@@ -374,18 +383,20 @@ export function PreviewPanel(): React.JSX.Element {
   const [outfitData, setOutfitData] = useState<OutfitData>(() => createOutfitData())
   const [colorizeOn, setColorizeOn] = useState(false)
 
+  // Reset outfit data and colorize toggle when thing changes (render-time state adjustment)
+  const [prevEditingThingData, setPrevEditingThingData] = useState(editingThingData)
+  if (editingThingData !== prevEditingThingData) {
+    setPrevEditingThingData(editingThingData)
+    setOutfitData(createOutfitData())
+    setColorizeOn(false)
+  }
+
   // Legacy validation: colorize only available when frame group has layers > 1
   const canColorize = useMemo(() => {
     if (!editingThingData || currentCategory !== ThingCategory.OUTFIT) return false
     const fg = editingThingData.thing.frameGroups?.[0]
     return fg !== undefined && fg.layers > 1
   }, [editingThingData, currentCategory])
-
-  // Reset outfit data and colorize toggle when thing changes
-  useEffect(() => {
-    setOutfitData(createOutfitData())
-    setColorizeOn(false)
-  }, [editingThingData])
 
   // Effective colorize state: toggle ON + has blend layer
   const colorizeEnabled = colorizeOn && canColorize

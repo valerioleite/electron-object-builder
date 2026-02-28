@@ -142,11 +142,9 @@ describe('parseOtfi', () => {
   })
 
   it('should parse custom metadata-controller and attribute-server', () => {
-    const text = [
-      'DatSpr',
-      '  metadata-controller: canary',
-      '  attribute-server: tfs0.3.6'
-    ].join('\n')
+    const text = ['DatSpr', '  metadata-controller: canary', '  attribute-server: tfs0.3.6'].join(
+      '\n'
+    )
 
     const data = parseOtfi(text)
     expect(data).not.toBeNull()

@@ -27,7 +27,14 @@ export function createProjectFeatures(
   metadataController = 'default',
   attributeServer: string | null = null
 ): ProjectFeatures {
-  return { extended, transparency, improvedAnimations, frameGroups, metadataController, attributeServer }
+  return {
+    extended,
+    transparency,
+    improvedAnimations,
+    frameGroups,
+    metadataController,
+    attributeServer
+  }
 }
 
 /**

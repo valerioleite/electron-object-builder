@@ -83,9 +83,7 @@ export function readSpr(buffer: ArrayBuffer, extended: boolean): SprReadResult {
 
     // Read compressed pixels
     const start = reader.position
-    const compressed = new Uint8Array(
-      buffer.slice(reader.position, reader.position + length)
-    )
+    const compressed = new Uint8Array(buffer.slice(reader.position, reader.position + length))
     reader.position = start + length
 
     sprites.set(id, compressed)

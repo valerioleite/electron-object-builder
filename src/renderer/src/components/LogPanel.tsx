@@ -124,9 +124,7 @@ export function LogPanel({ height, onHeightChange }: LogPanelProps): React.JSX.E
 
       {/* Header — Material surface */}
       <div className="flex h-8 items-center justify-between bg-bg-secondary px-3">
-        <span className="text-xs font-medium text-text-secondary">
-          {t('controls.logWindow')}
-        </span>
+        <span className="text-xs font-medium text-text-secondary">{t('controls.logWindow')}</span>
         <div className="flex items-center gap-1">
           <button
             className="rounded-full px-3 py-0.5 text-[11px] font-medium text-accent transition-colors hover:bg-accent-subtle"

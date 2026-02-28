@@ -80,7 +80,10 @@ export function Toolbar({ onAction }: ToolbarProps): React.JSX.Element {
   const dispatch = (action: MenuAction): void => onAction?.(action)
 
   return (
-    <div className="flex h-12 shrink-0 items-center gap-0.5 bg-bg-secondary px-3" style={{ boxShadow: 'var(--shadow-sm)' }}>
+    <div
+      className="flex h-12 shrink-0 items-center gap-0.5 bg-bg-secondary px-3"
+      style={{ boxShadow: 'var(--shadow-sm)' }}
+    >
       {/* File operations */}
       <ToolbarButton
         icon={<IconNewFile size={16} />}

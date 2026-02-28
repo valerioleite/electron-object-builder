@@ -13,7 +13,7 @@
  * - otlib/components/AmountNumericStepper.as (pagination stepper)
  */
 
-import React, { useState, useRef, useCallback, useMemo, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import { workerService } from '../../workers/worker-service'
 import {
   useAppStore,
@@ -174,7 +174,10 @@ interface ThingListPanelProps {
   onAction?: (action: ThingListAction) => void
 }
 
-export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = {}): React.JSX.Element {
+export function ThingListPanel({
+  onEditThing,
+  onAction
+}: ThingListPanelProps = {}): React.JSX.Element {
   const { t } = useTranslation()
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [searchInput, setSearchInput] = useState('')
@@ -278,22 +281,24 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
     [filteredThings, pageStart, pageEnd]
   )
 
-  // Reset page when category or filter changes
-  useEffect(() => {
+  // Reset page when category or filter changes (render-time state adjustment)
+  const [prevCategoryForPage, setPrevCategoryForPage] = useState(currentCategory)
+  const [prevSearchFilter, setPrevSearchFilter] = useState(searchFilter)
+  if (currentCategory !== prevCategoryForPage || searchFilter !== prevSearchFilter) {
+    setPrevCategoryForPage(currentCategory)
+    setPrevSearchFilter(searchFilter)
     setCurrentPage(0)
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = 0
-      setScrollTop(0)
-    }
-  }, [currentCategory, searchFilter])
+    setScrollTop(0)
+  }
 
-  // Reset search input when category changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useLayoutEffect(() => {
+  // Reset search input when category changes (render-time state adjustment)
+  const [prevCategoryForSearch, setPrevCategoryForSearch] = useState(currentCategory)
+  if (currentCategory !== prevCategoryForSearch) {
+    setPrevCategoryForSearch(currentCategory)
     setSearchInput('')
     setSearchFilter('')
     debouncedSetFilter.cancel()
-  }, [currentCategory])
+  }
 
   // Stepper value: selected thing's ID if it's in filteredThings, otherwise first thing on page
   const stepperValue = useMemo(() => {
@@ -305,8 +310,7 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
   }, [selectedThingId, filteredThings, pageThings])
 
   const stepperMin = filteredThings.length > 0 ? filteredThings[0].id : 0
-  const stepperMax =
-    filteredThings.length > 0 ? filteredThings[filteredThings.length - 1].id : 0
+  const stepperMax = filteredThings.length > 0 ? filteredThings[filteredThings.length - 1].id : 0
 
   // Find closest thing to a target ID and navigate to its page
   const handleStepperChange = useCallback(
@@ -369,11 +373,15 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
     return () => observer.disconnect()
   }, [])
 
-  // Reset scroll when page changes
+  // Reset scroll when page changes (render-time state adjustment + DOM sync)
+  const [prevPage, setPrevPage] = useState(currentPage)
+  if (currentPage !== prevPage) {
+    setPrevPage(currentPage)
+    setScrollTop(0)
+  }
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0
-      setScrollTop(0)
     }
   }, [currentPage])
 
@@ -449,8 +457,7 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
         const anchorIdx = allIds.indexOf(selectedThingId)
         const targetIdx = allIds.indexOf(thing.id)
         if (anchorIdx !== -1 && targetIdx !== -1) {
-          const [from, to] =
-            anchorIdx < targetIdx ? [anchorIdx, targetIdx] : [targetIdx, anchorIdx]
+          const [from, to] = anchorIdx < targetIdx ? [anchorIdx, targetIdx] : [targetIdx, anchorIdx]
           selectThingsAction(allIds.slice(from, to + 1))
         }
       } else {
@@ -567,7 +574,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
           if (!clipboard.object) break
           if (clipboard.sourceCategory !== currentCategory) break
 
-          const targetIds = selectedThingIds.length > 0 ? [...selectedThingIds] : (selectedThingId !== null ? [selectedThingId] : [])
+          const targetIds =
+            selectedThingIds.length > 0
+              ? [...selectedThingIds]
+              : selectedThingId !== null
+                ? [selectedThingId]
+                : []
           if (targetIds.length === 0) break
 
           const appStore = useAppStore.getState()
@@ -584,8 +596,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
               type: 'replace-thing',
               timestamp: Date.now(),
               description: `Paste object to ${currentCategory} #${targetId}`,
-              before: [{ id: targetId, category: currentCategory, thingType: cloneThingType(existing) }],
-              after: [{ id: targetId, category: currentCategory, thingType: cloneThingType(cloned.thing) }]
+              before: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(existing) }
+              ],
+              after: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(cloned.thing) }
+              ]
             })
 
             appStore.updateThing(currentCategory, targetId, cloned.thing)
@@ -610,7 +626,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
           const { clipboard } = editorStore
           if (!clipboard.properties) break
 
-          const targetIds = selectedThingIds.length > 0 ? [...selectedThingIds] : (selectedThingId !== null ? [selectedThingId] : [])
+          const targetIds =
+            selectedThingIds.length > 0
+              ? [...selectedThingIds]
+              : selectedThingId !== null
+                ? [selectedThingId]
+                : []
           if (targetIds.length === 0) break
 
           const appStore = useAppStore.getState()
@@ -625,8 +646,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
               type: 'paste-properties',
               timestamp: Date.now(),
               description: `Paste properties to ${currentCategory} #${targetId}`,
-              before: [{ id: targetId, category: currentCategory, thingType: cloneThingType(existing) }],
-              after: [{ id: targetId, category: currentCategory, thingType: cloneThingType(updated) }]
+              before: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(existing) }
+              ],
+              after: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(updated) }
+              ]
             })
 
             appStore.updateThing(currentCategory, targetId, updated)
@@ -642,7 +667,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
           const { clipboard } = editorStore
           if (!clipboard.patterns) break
 
-          const targetIds = selectedThingIds.length > 0 ? [...selectedThingIds] : (selectedThingId !== null ? [selectedThingId] : [])
+          const targetIds =
+            selectedThingIds.length > 0
+              ? [...selectedThingIds]
+              : selectedThingId !== null
+                ? [selectedThingId]
+                : []
           if (targetIds.length === 0) break
 
           const appStore = useAppStore.getState()
@@ -657,8 +687,12 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
               type: 'paste-patterns',
               timestamp: Date.now(),
               description: `Paste patterns to ${currentCategory} #${targetId}`,
-              before: [{ id: targetId, category: currentCategory, thingType: cloneThingType(existing) }],
-              after: [{ id: targetId, category: currentCategory, thingType: cloneThingType(updated) }]
+              before: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(existing) }
+              ],
+              after: [
+                { id: targetId, category: currentCategory, thingType: cloneThingType(updated) }
+              ]
             })
 
             appStore.updateThing(currentCategory, targetId, updated)
@@ -688,7 +722,19 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
           break
       }
     },
-    [selectedThingId, selectedThingIds, currentCategory, categoryThings, clientInfo, onEditThing, onAction, getThingById, addThing, removeThing, selectThing]
+    [
+      selectedThingId,
+      selectedThingIds,
+      currentCategory,
+      categoryThings,
+      clientInfo,
+      onEditThing,
+      onAction,
+      getThingById,
+      addThing,
+      removeThing,
+      selectThing
+    ]
   )
 
   // -------------------------------------------------------------------------
@@ -724,9 +770,7 @@ export function ThingListPanel({ onEditThing, onAction }: ThingListPanelProps = 
       if (!fileList || fileList.length === 0) return
 
       // Filter for .obd files
-      const obdFiles = Array.from(fileList).filter((f) =>
-        f.name.toLowerCase().endsWith('.obd')
-      )
+      const obdFiles = Array.from(fileList).filter((f) => f.name.toLowerCase().endsWith('.obd'))
 
       if (obdFiles.length === 0) return
 

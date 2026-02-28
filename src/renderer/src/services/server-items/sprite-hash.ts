@@ -18,9 +18,6 @@ const TRANSPARENT_COLOR = 0x11
 /** Standard sprite size (32x32 pixels). */
 const SPRITE_SIZE = 32
 
-/** Bytes per sprite in RGB format (32 * 32 * 3). */
-const RGB_SPRITE_SIZE = SPRITE_SIZE * SPRITE_SIZE * 3
-
 /** Bytes per sprite in BGR0 format (32 * 32 * 4). */
 const BGR0_SPRITE_SIZE = SPRITE_SIZE * SPRITE_SIZE * 4
 

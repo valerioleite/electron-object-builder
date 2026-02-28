@@ -106,10 +106,7 @@ export function CompileAssetsDialog({
     []
   )
 
-  const formatOptions = useMemo(
-    () => [{ value: OTFormat.XML, label: 'XML' }],
-    []
-  )
+  const formatOptions = useMemo(() => [{ value: OTFormat.XML, label: 'XML' }], [])
 
   const peerOptions = useMemo(
     () => [
@@ -206,7 +203,12 @@ export function CompileAssetsDialog({
       footer={
         <>
           <DialogButton label={t('labels.cancel')} onClick={handleClose} />
-          <DialogButton label={t('labels.confirm')} onClick={handleConfirm} primary disabled={!canConfirm} />
+          <DialogButton
+            label={t('labels.confirm')}
+            onClick={handleConfirm}
+            primary
+            disabled={!canConfirm}
+          />
         </>
       }
     >

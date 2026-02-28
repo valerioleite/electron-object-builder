@@ -205,16 +205,20 @@ export function ThingContextMenu({
       <MenuSeparator />
 
       <MenuItem
-        label={singleSelected && selectedId !== null
-          ? t('labels.copyClientId', { 0: selectedId })
-          : t('labels.copyClientId', { 0: '' }).replace(/:\s*$/, '')}
+        label={
+          singleSelected && selectedId !== null
+            ? t('labels.copyClientId', { 0: selectedId })
+            : t('labels.copyClientId', { 0: '' }).replace(/:\s*$/, '')
+        }
         disabled={multipleSelected}
         onClick={() => handleAction('copy-client-id')}
       />
       <MenuItem
-        label={singleSelected && serverId
-          ? t('labels.copyServerId', { 0: serverId })
-          : t('labels.copyServerId', { 0: '' }).replace(/:\s*$/, '')}
+        label={
+          singleSelected && serverId
+            ? t('labels.copyServerId', { 0: serverId })
+            : t('labels.copyServerId', { 0: '' }).replace(/:\s*$/, '')
+        }
         disabled={multipleSelected || !serverId}
         onClick={() => handleAction('copy-server-id')}
       />

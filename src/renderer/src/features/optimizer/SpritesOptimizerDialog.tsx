@@ -129,9 +129,7 @@ export function SpritesOptimizerDialog({
   // Render
   // -------------------------------------------------------------------------
 
-  const progressPercent = progress
-    ? Math.round((progress.step / progress.totalSteps) * 100)
-    : 0
+  const progressPercent = progress ? Math.round((progress.step / progress.totalSteps) * 100) : 0
 
   const footer = (
     <div className="flex w-full items-center justify-between">
@@ -160,9 +158,7 @@ export function SpritesOptimizerDialog({
           <div className="flex flex-col gap-1">
             <div className="flex justify-between text-xs">
               <span className="text-text-secondary">{t('labels.removedSprites')}:</span>
-              <span className="font-medium text-text-primary">
-                {result?.removedCount ?? 0}
-              </span>
+              <span className="font-medium text-text-primary">{result?.removedCount ?? 0}</span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-text-secondary">{t('labels.oldSpriteCount')}:</span>

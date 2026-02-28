@@ -81,9 +81,7 @@ export class BinaryReader {
 
   readBytes(length: number): Uint8Array {
     const result = new Uint8Array(length)
-    result.set(
-      new Uint8Array(this.view.buffer, this.view.byteOffset + this._position, length)
-    )
+    result.set(new Uint8Array(this.view.buffer, this.view.byteOffset + this._position, length))
     this._position += length
     return result
   }

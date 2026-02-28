@@ -37,18 +37,6 @@ function renderDialog(overrides: Partial<BulkEditDialogProps> = {}) {
 }
 
 /**
- * Find all "Change" checkboxes in the dialog.
- * BulkPropertyRow renders a checkbox with label "Change".
- */
-function findChangeCheckboxes(): HTMLInputElement[] {
-  const changeLabels = screen.getAllByText('Change')
-  return changeLabels.map((label) => {
-    const checkbox = label.closest('label')?.querySelector('input[type="checkbox"]')
-    return checkbox as HTMLInputElement
-  })
-}
-
-/**
  * Find a specific BulkPropertyRow by its property label text.
  * Returns { changeCheckbox, valueCheckbox }.
  */
@@ -144,9 +132,7 @@ describe('BulkEditDialog', () => {
     renderDialog({ category: ThingCategory.MISSILE })
 
     // i18n: "No properties available for bulk editing"
-    expect(
-      screen.getByText('No properties available for bulk editing')
-    ).toBeInTheDocument()
+    expect(screen.getByText('No properties available for bulk editing')).toBeInTheDocument()
   })
 
   // -------------------------------------------------------------------------
@@ -264,13 +250,13 @@ describe('BulkEditDialog', () => {
     // The Animation Duration section has a "Change" checkbox for duration
     const durationSection = screen.getByText('Animation Duration')
     const durationFieldGroup = durationSection.closest('.flex.flex-col.gap-2')!
-    const durationChangeCheckboxes = within(
-      durationFieldGroup as HTMLElement
-    ).getAllByText('Change')
+    const durationChangeCheckboxes = within(durationFieldGroup as HTMLElement).getAllByText(
+      'Change'
+    )
     // The first "Change" in Animation Duration is the duration toggle
     const changeLabel = durationChangeCheckboxes[0]
-    const changeCheckbox = changeLabel.closest('label')?.querySelector('input')!
-    fireEvent.click(changeCheckbox)
+    const changeCheckbox = changeLabel.closest('label')?.querySelector('input')
+    fireEvent.click(changeCheckbox!)
 
     // Now the frame group target select should be visible with "All Groups"
     expect(screen.getByText('All Groups')).toBeInTheDocument()
@@ -311,10 +297,8 @@ describe('BulkEditDialog', () => {
     const animSection = screen.getByText('Animation Settings')
     const animFieldGroup = animSection.closest('.flex.flex-col.gap-2')!
     const changeLabels = within(animFieldGroup as HTMLElement).getAllByText('Change')
-    const animModeChangeCheckbox = changeLabels[0]
-      .closest('label')
-      ?.querySelector('input')!
-    fireEvent.click(animModeChangeCheckbox)
+    const animModeChangeCheckbox = changeLabels[0].closest('label')?.querySelector('input')
+    fireEvent.click(animModeChangeCheckbox!)
 
     expect(applyButton).not.toBeDisabled()
   })

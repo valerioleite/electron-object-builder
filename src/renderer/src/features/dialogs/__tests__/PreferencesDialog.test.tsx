@@ -57,9 +57,7 @@ function clickTab(tabLabel: string): void {
   // Find all buttons, filter to the one in the tab bar area
   const buttons = screen.getAllByRole('button')
   const tabButton = buttons.find(
-    (btn) =>
-      btn.textContent === tabLabel &&
-      btn.parentElement?.classList.contains('border-b')
+    (btn) => btn.textContent === tabLabel && btn.parentElement?.classList.contains('border-b')
   )
   if (!tabButton) {
     throw new Error(`Tab button "${tabLabel}" not found in tab bar`)
@@ -165,9 +163,7 @@ describe('PreferencesDialog', () => {
     clickTab('Items')
 
     expect(
-      screen.getByText(
-        'Automatically create missing server items (new/update/duplicate/import)'
-      )
+      screen.getByText('Automatically create missing server items (new/update/duplicate/import)')
     ).toBeInTheDocument()
   })
 
@@ -208,9 +204,7 @@ describe('PreferencesDialog', () => {
     // Switch to Items
     clickTab('Items')
     expect(
-      screen.getByText(
-        'Automatically create missing server items (new/update/duplicate/import)'
-      )
+      screen.getByText('Automatically create missing server items (new/update/duplicate/import)')
     ).toBeInTheDocument()
 
     // Back to General

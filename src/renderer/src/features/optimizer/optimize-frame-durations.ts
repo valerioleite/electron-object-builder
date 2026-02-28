@@ -63,11 +63,7 @@ function changeFrameDurations(
   const result = things.map((thing) => {
     let modified = false
 
-    for (
-      let groupType = FrameGroupType.DEFAULT;
-      groupType <= FrameGroupType.WALKING;
-      groupType++
-    ) {
+    for (let groupType = FrameGroupType.DEFAULT; groupType <= FrameGroupType.WALKING; groupType++) {
       const frameGroup = thing.frameGroups[groupType]
       if (!frameGroup || !frameGroup.frameDurations) continue
 
@@ -85,11 +81,7 @@ function changeFrameDurations(
 
     // Clone thing and update durations
     const cloned = cloneThingType(thing)
-    for (
-      let groupType = FrameGroupType.DEFAULT;
-      groupType <= FrameGroupType.WALKING;
-      groupType++
-    ) {
+    for (let groupType = FrameGroupType.DEFAULT; groupType <= FrameGroupType.WALKING; groupType++) {
       const frameGroup = cloned.frameGroups[groupType]
       if (!frameGroup || !frameGroup.frameDurations) continue
 

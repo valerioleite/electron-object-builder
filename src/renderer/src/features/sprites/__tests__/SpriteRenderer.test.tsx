@@ -3,7 +3,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { SpriteRenderer } from '../SpriteRenderer'
 import { useAppStore, useEditorStore, useSpriteStore } from '../../../stores'
-import { ThingCategory, type ThingData, type ThingType, createThingType } from '../../../types/things'
+import {
+  ThingCategory,
+  type ThingData,
+  type ThingType,
+  createThingType
+} from '../../../types/things'
 import { createFrameGroup, FrameGroupType, type FrameGroup } from '../../../types/animation'
 import { SPRITE_DEFAULT_DATA_SIZE } from '../../../types/sprites'
 import type { SpriteData } from '../../../types/sprites'
@@ -42,7 +47,8 @@ function makeThing(overrides: Partial<ThingType> = {}): ThingType {
 function makeThingData(thing?: ThingType): ThingData {
   const t = thing ?? makeThing()
   const sprites = new Map<FrameGroupType, SpriteData[]>()
-  const spriteData: SpriteData[] = t.frameGroups[0].spriteIndex.map((_, i) => ({
+  const fg = t.frameGroups[0]!
+  const spriteData: SpriteData[] = fg.spriteIndex.map((_, i) => ({
     id: i + 1,
     pixels: makeSolidSprite(0xff, 0x80, 0x80, 0x80)
   }))

@@ -165,7 +165,10 @@ export async function writeBinaryFile(filePath: string, data: ArrayBuffer): Prom
 /**
  * Reads a text file as a string (async).
  */
-export async function readTextFile(filePath: string, encoding: BufferEncoding = 'utf-8'): Promise<string> {
+export async function readTextFile(
+  filePath: string,
+  encoding: BufferEncoding = 'utf-8'
+): Promise<string> {
   return readFile(filePath, { encoding })
 }
 
@@ -233,10 +236,7 @@ export async function getFileInfo(filePath: string): Promise<FileInfo> {
  * Lists files in a directory matching optional extension filter.
  * Equivalent to legacy directory listing used in ClientInfoLoader.
  */
-export async function listFiles(
-  directoryPath: string,
-  extensions?: string[]
-): Promise<string[]> {
+export async function listFiles(directoryPath: string, extensions?: string[]): Promise<string[]> {
   const entries = await readdir(directoryPath, { withFileTypes: true })
   const files: string[] = []
 

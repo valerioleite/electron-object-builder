@@ -6,7 +6,7 @@
  * Returns export parameters on confirm.
  */
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Modal,
@@ -80,17 +80,19 @@ export function ExportDialog({
   const [selectedVersion, setSelectedVersion] = useState<Version | null>(currentVersion)
   const [obdVersion, setObdVersion] = useState(OBDVersion.VERSION_3)
 
-  // Reset on open
-  useEffect(() => {
-    if (open) {
-      setFileName(defaultFileName)
-      setFormat(defaultFormat)
-      setSelectedVersion(currentVersion)
-      setJpegQuality(100)
-      setTransparentBackground(false)
-      setObdVersion(OBDVersion.VERSION_3)
-    }
-  }, [open, defaultFileName, defaultFormat, currentVersion])
+  // Reset on open (render-time state adjustment)
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
+    setFileName(defaultFileName)
+    setFormat(defaultFormat)
+    setSelectedVersion(currentVersion)
+    setJpegQuality(100)
+    setTransparentBackground(false)
+    setObdVersion(OBDVersion.VERSION_3)
+  }
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
 
   const handleBrowseDirectory = useCallback(async () => {
     if (!window.api?.file) return
@@ -120,9 +122,21 @@ export function ExportDialog({
       obdVersion: format === OTFormat.OBD ? obdVersion : 0
     })
     onClose()
-  }, [fileName, directory, format, transparentBackground, jpegQuality, selectedVersion, obdVersion, onConfirm, onClose])
+  }, [
+    fileName,
+    directory,
+    format,
+    transparentBackground,
+    jpegQuality,
+    selectedVersion,
+    obdVersion,
+    onConfirm,
+    onClose
+  ])
 
-  const isValid = fileName.trim().length > 0 && directory.length > 0 &&
+  const isValid =
+    fileName.trim().length > 0 &&
+    directory.length > 0 &&
     (format !== OTFormat.OBD || selectedVersion !== null)
 
   const versionOptions = VERSIONS.map((v) => ({ value: v.valueStr, label: `v${v.valueStr}` }))
@@ -135,7 +149,12 @@ export function ExportDialog({
       width={450}
       footer={
         <>
-          <DialogButton label={t('labels.export')} onClick={handleConfirm} primary disabled={!isValid} />
+          <DialogButton
+            label={t('labels.export')}
+            onClick={handleConfirm}
+            primary
+            disabled={!isValid}
+          />
           <DialogButton label={t('labels.cancel')} onClick={onClose} />
         </>
       }

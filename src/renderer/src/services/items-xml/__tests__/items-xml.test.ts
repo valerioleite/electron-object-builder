@@ -216,9 +216,7 @@ describe('readItemsXml', () => {
 
   it('skips items not in ServerItemList', () => {
     const list = makeList({ id: 100 })
-    const xml = makeXml(
-      '\t<item id="100" name="sword" />\n\t<item id="999" name="missing" />\n'
-    )
+    const xml = makeXml('\t<item id="100" name="sword" />\n\t<item id="999" name="missing" />\n')
 
     const result = readItemsXml(xml, list)
 
@@ -363,9 +361,7 @@ describe('writeItemsXml', () => {
     const xml = writeItemsXml(list)
 
     // article comes before name in default order
-    expect(xml).toContain(
-      'article="a" name="gold coin" plural="gold coins" editorsuffix="(100gp)"'
-    )
+    expect(xml).toContain('article="a" name="gold coin" plural="gold coins" editorsuffix="(100gp)"')
   })
 
   it('writes item with nested attributes', () => {

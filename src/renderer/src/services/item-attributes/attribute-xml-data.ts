@@ -229,11 +229,7 @@ const SHOOT_TYPE_10 = [
   'envenomedarrow'
 ]
 
-const SHOOT_TYPE_11 = [
-  ...SHOOT_TYPE_10,
-  'gloothspear',
-  'simplearrow'
-]
+const SHOOT_TYPE_11 = [...SHOOT_TYPE_10, 'gloothspear', 'simplearrow']
 
 const EFFECT_036 = [
   'drawblood',
@@ -389,13 +385,7 @@ const EFFECT_10 = [
   'blacksmoke'
 ]
 
-const EFFECT_11 = [
-  ...EFFECT_10,
-  'redsmoke',
-  'yellowsmoke',
-  'greensmoke',
-  'purplesmoke'
-]
+const EFFECT_11 = [...EFFECT_10, 'redsmoke', 'yellowsmoke', 'greensmoke', 'purplesmoke']
 
 const FLUID_SOURCE_036 = [
   'water',

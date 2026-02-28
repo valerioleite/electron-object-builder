@@ -5,12 +5,7 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest'
-import {
-  useAppStore,
-  resetAppStore,
-  createProjectInfo,
-  createUIState
-} from '../use-app-store'
+import { useAppStore, resetAppStore, createProjectInfo, createUIState } from '../use-app-store'
 import {
   ThingCategory,
   type ThingType,
@@ -288,9 +283,7 @@ describe('Things actions', () => {
     useAppStore.getState().setThings(ThingCategory.ITEM, [makeThing(100)])
     useAppStore.getState().setThings(ThingCategory.OUTFIT, [makeThing(1, ThingCategory.OUTFIT)])
     useAppStore.getState().setThings(ThingCategory.EFFECT, [makeThing(1, ThingCategory.EFFECT)])
-    useAppStore
-      .getState()
-      .setThings(ThingCategory.MISSILE, [makeThing(1, ThingCategory.MISSILE)])
+    useAppStore.getState().setThings(ThingCategory.MISSILE, [makeThing(1, ThingCategory.MISSILE)])
 
     const { things } = useAppStore.getState()
     expect(things.items).toHaveLength(1)
@@ -371,9 +364,7 @@ describe('Category actions', () => {
 
   it('setCurrentCategory clears selection', () => {
     useAppStore.getState().selectThing(100)
-    useAppStore
-      .getState()
-      .setSelectedThingData(makeThingData(100))
+    useAppStore.getState().setSelectedThingData(makeThingData(100))
 
     useAppStore.getState().setCurrentCategory(ThingCategory.OUTFIT)
 
@@ -790,9 +781,7 @@ describe('Integration scenarios', () => {
     const items = Array.from({ length: 101 }, (_, i) => makeThing(100 + i))
     useAppStore.getState().setThings(ThingCategory.ITEM, items)
 
-    const outfits = Array.from({ length: 50 }, (_, i) =>
-      makeThing(1 + i, ThingCategory.OUTFIT)
-    )
+    const outfits = Array.from({ length: 50 }, (_, i) => makeThing(1 + i, ThingCategory.OUTFIT))
     useAppStore.getState().setThings(ThingCategory.OUTFIT, outfits)
 
     // 3. Set sprite count
@@ -821,9 +810,7 @@ describe('Integration scenarios', () => {
     useAppStore.getState().setProjectLoaded({ fileName: 'Test', clientInfo })
 
     useAppStore.getState().setThings(ThingCategory.ITEM, [makeThing(100)])
-    useAppStore
-      .getState()
-      .setThings(ThingCategory.OUTFIT, [makeThing(1, ThingCategory.OUTFIT)])
+    useAppStore.getState().setThings(ThingCategory.OUTFIT, [makeThing(1, ThingCategory.OUTFIT)])
 
     // Select item, then switch to outfit
     useAppStore.getState().selectThing(100)

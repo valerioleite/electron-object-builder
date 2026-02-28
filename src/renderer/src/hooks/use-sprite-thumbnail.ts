@@ -11,7 +11,7 @@
  * - Background: 0xFF636363 (dark gray)
  */
 
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { useSpriteStore } from '../stores'
 import { useAppStore } from '../stores'
 import { ThingCategory, type ThingType, getFrameGroupSpriteIndex } from '../types'
@@ -183,17 +183,12 @@ function renderThingThumbnail(
  * Returns a data URL (PNG) for the given thing's thumbnail, or null if unavailable.
  * Composites all tiles/layers matching the legacy rendering behavior.
  */
-export function useSpriteThumbnail(
-  thing: ThingType,
-  category: ThingCategory
-): string | null {
-  const [dataUrl, setDataUrl] = useState<string | null>(null)
+export function useSpriteThumbnail(thing: ThingType, category: ThingCategory): string | null {
   const transparent = useAppStore((s) => s.clientInfo?.features?.transparency ?? false)
 
-  useEffect(() => {
+  const dataUrl = useMemo(() => {
     if (!thing || !thing.frameGroups?.length) {
-      setDataUrl(null)
-      return
+      return null
     }
 
     const cacheKey = `${category}:${thing.id}`
@@ -201,8 +196,7 @@ export function useSpriteThumbnail(
     // Check module-level cache
     const cached = thumbnailCache.get(cacheKey)
     if (cached) {
-      setDataUrl(cached)
-      return
+      return cached
     }
 
     try {
@@ -210,9 +204,9 @@ export function useSpriteThumbnail(
       if (url) {
         thumbnailCache.set(cacheKey, url)
       }
-      setDataUrl(url)
+      return url
     } catch {
-      setDataUrl(null)
+      return null
     }
   }, [thing, category, transparent])
 

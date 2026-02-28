@@ -16,7 +16,6 @@ import lzmaWorkerSource from 'lzma/src/lzma_worker-min.js?raw'
 
 // Execute the worker source in a fresh scope to extract the LZMA local variable.
 // The source defines `var LZMA=(function(){...})()` as a local variable.
-// eslint-disable-next-line @typescript-eslint/no-implied-eval
 const lzmaLib = new Function(lzmaWorkerSource + ';\nreturn LZMA;')() as {
   compress(
     input: number[] | string,

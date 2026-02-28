@@ -161,11 +161,7 @@ const api = {
     ) => ipcRenderer.invoke(RECENT_GET, key),
 
     set: (
-      key:
-        | 'lastDirectory'
-        | 'lastMergeDirectory'
-        | 'lastIODirectory'
-        | 'lastServerItemsDirectory',
+      key: 'lastDirectory' | 'lastMergeDirectory' | 'lastIODirectory' | 'lastServerItemsDirectory',
       path: string | null
     ) => ipcRenderer.invoke(RECENT_SET, key, path),
 
@@ -260,17 +256,18 @@ const api = {
     setServerItemsPath: (path: string | null) =>
       ipcRenderer.invoke(PROJECT_SET_SERVER_ITEMS_PATH, path),
 
-    updateFeatures: (features: Partial<{
-      extended: boolean
-      transparency: boolean
-      improvedAnimations: boolean
-      frameGroups: boolean
-      metadataController: string
-      attributeServer: string | null
-    }>) => ipcRenderer.invoke(PROJECT_UPDATE_FEATURES, features),
+    updateFeatures: (
+      features: Partial<{
+        extended: boolean
+        transparency: boolean
+        improvedAnimations: boolean
+        frameGroups: boolean
+        metadataController: string
+        attributeServer: string | null
+      }>
+    ) => ipcRenderer.invoke(PROJECT_UPDATE_FEATURES, features),
 
-    discoverClientFiles: (dir: string) =>
-      ipcRenderer.invoke(PROJECT_DISCOVER_CLIENT_FILES, dir),
+    discoverClientFiles: (dir: string) => ipcRenderer.invoke(PROJECT_DISCOVER_CLIENT_FILES, dir),
 
     discoverServerItemFiles: (dir: string) =>
       ipcRenderer.invoke(PROJECT_DISCOVER_SERVER_ITEM_FILES, dir),
@@ -330,8 +327,7 @@ const api = {
   // Menu
   // -------------------------------------------------------------------------
   menu: {
-    updateState: (state: Record<string, unknown>) =>
-      ipcRenderer.invoke(MENU_UPDATE_STATE, state),
+    updateState: (state: Record<string, unknown>) => ipcRenderer.invoke(MENU_UPDATE_STATE, state),
 
     getState: () => ipcRenderer.invoke(MENU_GET_STATE),
 

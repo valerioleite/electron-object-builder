@@ -96,15 +96,9 @@ function blitSprite(
         const outA = srcA + dstA * (1 - srcA)
         if (outA > 0) {
           dst[di] = Math.min(255, Math.round(outA * 255))
-          dst[di + 1] = Math.round(
-            (src[si + 1] * srcA + dst[di + 1] * dstA * (1 - srcA)) / outA
-          )
-          dst[di + 2] = Math.round(
-            (src[si + 2] * srcA + dst[di + 2] * dstA * (1 - srcA)) / outA
-          )
-          dst[di + 3] = Math.round(
-            (src[si + 3] * srcA + dst[di + 3] * dstA * (1 - srcA)) / outA
-          )
+          dst[di + 1] = Math.round((src[si + 1] * srcA + dst[di + 1] * dstA * (1 - srcA)) / outA)
+          dst[di + 2] = Math.round((src[si + 2] * srcA + dst[di + 2] * dstA * (1 - srcA)) / outA)
+          dst[di + 3] = Math.round((src[si + 3] * srcA + dst[di + 3] * dstA * (1 - srcA)) / outA)
         }
       }
     }
@@ -345,15 +339,9 @@ function setColor(
       const outA = srcA + dstA * (1 - srcA)
       if (outA > 0) {
         grey[i] = Math.min(255, Math.round(outA * 255))
-        grey[i + 1] = Math.round(
-          (cR * srcA + grey[i + 1] * dstA * (1 - srcA)) / outA
-        )
-        grey[i + 2] = Math.round(
-          (cG * srcA + grey[i + 2] * dstA * (1 - srcA)) / outA
-        )
-        grey[i + 3] = Math.round(
-          (cB * srcA + grey[i + 3] * dstA * (1 - srcA)) / outA
-        )
+        grey[i + 1] = Math.round((cR * srcA + grey[i + 1] * dstA * (1 - srcA)) / outA)
+        grey[i + 2] = Math.round((cG * srcA + grey[i + 2] * dstA * (1 - srcA)) / outA)
+        grey[i + 3] = Math.round((cB * srcA + grey[i + 3] * dstA * (1 - srcA)) / outA)
       }
     }
   }
@@ -477,15 +465,43 @@ export function buildColoredSpriteSheet(
 
     // Apply colorization sequence (matching legacy exactly):
     // 1. feet -> blue channel (before filter)
-    setColor(grayBitmap, blendBitmap, bitmapWidth, bitmapHeight, CHANNEL_BLUE, hsiToArgb(outfitData.feet))
+    setColor(
+      grayBitmap,
+      blendBitmap,
+      bitmapWidth,
+      bitmapHeight,
+      CHANNEL_BLUE,
+      hsiToArgb(outfitData.feet)
+    )
     // 2. Apply filter to redistribute channels
     applyBlendFilter(blendBitmap, bitmapWidth, bitmapHeight)
     // 3. head -> blue channel (after filter, blue = R+G-255 = yellow area)
-    setColor(grayBitmap, blendBitmap, bitmapWidth, bitmapHeight, CHANNEL_BLUE, hsiToArgb(outfitData.head))
+    setColor(
+      grayBitmap,
+      blendBitmap,
+      bitmapWidth,
+      bitmapHeight,
+      CHANNEL_BLUE,
+      hsiToArgb(outfitData.head)
+    )
     // 4. body -> red channel
-    setColor(grayBitmap, blendBitmap, bitmapWidth, bitmapHeight, CHANNEL_RED, hsiToArgb(outfitData.body))
+    setColor(
+      grayBitmap,
+      blendBitmap,
+      bitmapWidth,
+      bitmapHeight,
+      CHANNEL_RED,
+      hsiToArgb(outfitData.body)
+    )
     // 5. legs -> green channel
-    setColor(grayBitmap, blendBitmap, bitmapWidth, bitmapHeight, CHANNEL_GREEN, hsiToArgb(outfitData.legs))
+    setColor(
+      grayBitmap,
+      blendBitmap,
+      bitmapWidth,
+      bitmapHeight,
+      CHANNEL_GREEN,
+      hsiToArgb(outfitData.legs)
+    )
 
     // Alpha-composite colorized result onto output
     blitRegion(
@@ -602,7 +618,7 @@ export function extractFrame(
 export function frameToImageData(frame: RenderedFrame): ImageData | null {
   if (frame.width === 0 || frame.height === 0) return null
   const rgba = argbToRgba(frame.pixels)
-  return new ImageData(rgba, frame.width, frame.height)
+  return new ImageData(rgba as Uint8ClampedArray<ArrayBuffer>, frame.width, frame.height)
 }
 
 /**

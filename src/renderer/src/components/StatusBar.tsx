@@ -60,7 +60,9 @@ export function StatusBar(): React.JSX.Element {
                 {t('labels.missiles')}: {clientInfo.maxMissileId - clientInfo.minMissileId + 1}
               </StatusItem>
               <StatusSep />
-              <StatusItem>{t('labels.sprites')}: {spriteCount}</StatusItem>
+              <StatusItem>
+                {t('labels.sprites')}: {spriteCount}
+              </StatusItem>
             </>
           )}
           <span className="ml-auto text-[11px] font-medium capitalize text-accent">{category}</span>

@@ -48,10 +48,7 @@ function collectAttributeKeys(attr: ItemAttribute, result: string[]): void {
 /**
  * Recursively collects key->order pairs for attributes with explicit order.
  */
-function collectAttributePriority(
-  attrs: ItemAttribute[],
-  result: Record<string, number>
-): void {
+function collectAttributePriority(attrs: ItemAttribute[], result: Record<string, number>): void {
   for (const attr of attrs) {
     if (attr.order !== Number.MAX_SAFE_INTEGER) {
       result[attr.key] = attr.order

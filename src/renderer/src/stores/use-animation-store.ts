@@ -432,7 +432,9 @@ export const useAnimationStore = create<AnimationStoreState & AnimationStoreActi
       }
 
       // Add frame duration
-      const fd = duration ? cloneFrameDuration(duration) : createFrameDuration(DEFAULT_FRAME_DURATION_MS, DEFAULT_FRAME_DURATION_MS)
+      const fd = duration
+        ? cloneFrameDuration(duration)
+        : createFrameDuration(DEFAULT_FRAME_DURATION_MS, DEFAULT_FRAME_DURATION_MS)
       if (newFg.frameDurations) {
         newFg.frameDurations.push(fd)
       } else {

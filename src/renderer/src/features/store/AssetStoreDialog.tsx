@@ -9,11 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { Modal, DialogButton, SelectField, FieldGroup } from '../../components/Modal'
 import { useAppStore } from '../../stores'
 import type { ThingData } from '../../types/things'
-import {
-  buildSpriteSheet,
-  extractFrame,
-  frameToImageData
-} from '../../services/sprite-render'
+import { buildSpriteSheet, extractFrame, frameToImageData } from '../../services/sprite-render'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -226,6 +222,43 @@ export function AssetStoreDialog({ open, onClose }: AssetStoreDialogProps): Reac
   }, [])
 
   // -------------------------------------------------------------------------
+  // Load a single asset OBD
+  // -------------------------------------------------------------------------
+
+  const loadSingleAsset = useCallback(
+    async (assetList: StoreAsset[], index: number, category: string) => {
+      const asset = assetList[index]
+      try {
+        const response = await fetch(asset.url, { cache: 'no-store', redirect: 'follow' })
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        const buffer = await response.arrayBuffer()
+
+        const { workerService } = await import('../../workers/worker-service')
+        const thingData = await workerService.decodeObd(new Uint8Array(buffer).buffer)
+
+        const previewUrl = generatePreview(thingData, category)
+
+        setAssets((prev) =>
+          prev.map((a, i) => (i === index ? { ...a, thingData, previewUrl, loaded: true } : a))
+        )
+      } catch (err) {
+        setAssets((prev) =>
+          prev.map((a, i) =>
+            i === index
+              ? {
+                  ...a,
+                  loaded: true,
+                  error: err instanceof Error ? err.message : String(err)
+                }
+              : a
+          )
+        )
+      }
+    },
+    []
+  )
+
+  // -------------------------------------------------------------------------
   // Load subcategory assets
   // -------------------------------------------------------------------------
 
@@ -276,53 +309,12 @@ export function AssetStoreDialog({ open, onClose }: AssetStoreDialogProps): Reac
           await loadSingleAsset(newAssets, i, category)
         }
       } catch (err) {
-        setError(
-          `Failed to load subcategory: ${err instanceof Error ? err.message : String(err)}`
-        )
+        setError(`Failed to load subcategory: ${err instanceof Error ? err.message : String(err)}`)
       } finally {
         setLoadingAssets(false)
       }
     },
-    []
-  )
-
-  // -------------------------------------------------------------------------
-  // Load a single asset OBD
-  // -------------------------------------------------------------------------
-
-  const loadSingleAsset = useCallback(
-    async (assetList: StoreAsset[], index: number, category: string) => {
-      const asset = assetList[index]
-      try {
-        const response = await fetch(asset.url, { cache: 'no-store', redirect: 'follow' })
-        if (!response.ok) throw new Error(`HTTP ${response.status}`)
-        const buffer = await response.arrayBuffer()
-
-        const { workerService } = await import('../../workers/worker-service')
-        const thingData = await workerService.decodeObd(new Uint8Array(buffer).buffer)
-
-        const previewUrl = generatePreview(thingData, category)
-
-        setAssets((prev) =>
-          prev.map((a, i) =>
-            i === index ? { ...a, thingData, previewUrl, loaded: true } : a
-          )
-        )
-      } catch (err) {
-        setAssets((prev) =>
-          prev.map((a, i) =>
-            i === index
-              ? {
-                  ...a,
-                  loaded: true,
-                  error: err instanceof Error ? err.message : String(err)
-                }
-              : a
-          )
-        )
-      }
-    },
-    []
+    [loadSingleAsset]
   )
 
   // -------------------------------------------------------------------------
@@ -331,7 +323,10 @@ export function AssetStoreDialog({ open, onClose }: AssetStoreDialogProps): Reac
 
   const handleImport = useCallback(
     (thingData: ThingData) => {
-      addLog('info', `Imported asset from Asset Store: ${thingData.thing.frameGroups.length} frame group(s)`)
+      addLog(
+        'info',
+        `Imported asset from Asset Store: ${thingData.thing.frameGroups.length} frame group(s)`
+      )
       // TODO: Wire to ImportThingsCommand when available
     },
     [addLog]

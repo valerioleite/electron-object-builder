@@ -5,7 +5,21 @@ export { MergeAssetsDialog, type MergeAssetsResult } from './MergeAssetsDialog'
 export { PreferencesDialog } from './PreferencesDialog'
 export { AboutDialog } from './AboutDialog'
 export { ErrorDialog, type ErrorDialogProps } from './ErrorDialog'
-export { FindDialog, type FindDialogProps, type FindThingFilters, type FindSpriteFilters } from './FindDialog'
+export {
+  FindDialog,
+  type FindDialogProps,
+  type FindThingFilters,
+  type FindSpriteFilters
+} from './FindDialog'
 export { ExportDialog, type ExportDialogResult, type ExportDialogProps } from './ExportDialog'
-export { ImportThingDialog, type ImportThingResult, type ImportThingDialogProps } from './ImportThingDialog'
-export { BulkEditDialog, type BulkEditResult, type BulkEditDialogProps, type BulkPropertyChange } from './BulkEditDialog'
+export {
+  ImportThingDialog,
+  type ImportThingResult,
+  type ImportThingDialogProps
+} from './ImportThingDialog'
+export {
+  BulkEditDialog,
+  type BulkEditResult,
+  type BulkEditDialogProps,
+  type BulkPropertyChange
+} from './BulkEditDialog'

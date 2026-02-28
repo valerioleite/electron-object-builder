@@ -17,7 +17,6 @@ import {
   createThing,
   addThingFrameGroupState,
   removeThingFrameGroupState,
-  type ThingData,
   createThingData,
   cloneThingData
 } from '../things'

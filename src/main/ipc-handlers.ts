@@ -106,19 +106,13 @@ export function registerIpcHandlers(): void {
   // File service handlers
   // -------------------------------------------------------------------------
 
-  ipcMain.handle(
-    channels.FILE_SHOW_OPEN_DIALOG,
-    async (_event, options?: IpcOpenDialogOptions) => {
-      return showOpenDialog(options)
-    }
-  )
+  ipcMain.handle(channels.FILE_SHOW_OPEN_DIALOG, async (_event, options?: IpcOpenDialogOptions) => {
+    return showOpenDialog(options)
+  })
 
-  ipcMain.handle(
-    channels.FILE_SHOW_SAVE_DIALOG,
-    async (_event, options?: IpcSaveDialogOptions) => {
-      return showSaveDialog(options)
-    }
-  )
+  ipcMain.handle(channels.FILE_SHOW_SAVE_DIALOG, async (_event, options?: IpcSaveDialogOptions) => {
+    return showSaveDialog(options)
+  })
 
   ipcMain.handle(
     channels.FILE_SHOW_DIRECTORY_DIALOG,
@@ -127,12 +121,9 @@ export function registerIpcHandlers(): void {
     }
   )
 
-  ipcMain.handle(
-    channels.FILE_READ_BINARY,
-    async (_event, filePath: string) => {
-      return readBinaryFile(filePath)
-    }
-  )
+  ipcMain.handle(channels.FILE_READ_BINARY, async (_event, filePath: string) => {
+    return readBinaryFile(filePath)
+  })
 
   ipcMain.handle(
     channels.FILE_WRITE_BINARY,
@@ -257,12 +248,9 @@ export function registerIpcHandlers(): void {
     return isProjectLoaded()
   })
 
-  ipcMain.handle(
-    channels.PROJECT_CREATE,
-    (_event, params: CreateProjectParams): ProjectState => {
-      return createProject(params) as ProjectState
-    }
-  )
+  ipcMain.handle(channels.PROJECT_CREATE, (_event, params: CreateProjectParams): ProjectState => {
+    return createProject(params) as ProjectState
+  })
 
   ipcMain.handle(
     channels.PROJECT_LOAD,
@@ -301,12 +289,9 @@ export function registerIpcHandlers(): void {
     setServerItemsPath(path)
   })
 
-  ipcMain.handle(
-    channels.PROJECT_UPDATE_FEATURES,
-    (_event, features: Partial<ProjectFeatures>) => {
-      updateProjectFeatures(features)
-    }
-  )
+  ipcMain.handle(channels.PROJECT_UPDATE_FEATURES, (_event, features: Partial<ProjectFeatures>) => {
+    updateProjectFeatures(features)
+  })
 
   ipcMain.handle(channels.PROJECT_DISCOVER_CLIENT_FILES, async (_event, dir: string) => {
     return discoverClientFiles(dir)
@@ -324,23 +309,21 @@ export function registerIpcHandlers(): void {
     return loadSettings()
   })
 
-  ipcMain.handle(
-    channels.SETTINGS_SAVE,
-    async (_event, newSettings: ObjectBuilderSettings) => {
-      await saveSettings(newSettings)
-    }
-  )
+  ipcMain.handle(channels.SETTINGS_SAVE, async (_event, newSettings: ObjectBuilderSettings) => {
+    await saveSettings(newSettings)
+  })
 
-  ipcMain.handle(
-    channels.SETTINGS_GET,
-    (_event, key: keyof ObjectBuilderSettings) => {
-      return getSetting(key)
-    }
-  )
+  ipcMain.handle(channels.SETTINGS_GET, (_event, key: keyof ObjectBuilderSettings) => {
+    return getSetting(key)
+  })
 
   ipcMain.handle(
     channels.SETTINGS_SET,
-    async (_event, key: keyof ObjectBuilderSettings, value: ObjectBuilderSettings[keyof ObjectBuilderSettings]) => {
+    async (
+      _event,
+      key: keyof ObjectBuilderSettings,
+      value: ObjectBuilderSettings[keyof ObjectBuilderSettings]
+    ) => {
       await setSetting(key, value)
     }
   )
@@ -357,12 +340,9 @@ export function registerIpcHandlers(): void {
     return loadWindowState()
   })
 
-  ipcMain.handle(
-    channels.SETTINGS_SAVE_WINDOW_STATE,
-    async (_event, state: WindowState) => {
-      await saveWindowState(state)
-    }
-  )
+  ipcMain.handle(channels.SETTINGS_SAVE_WINDOW_STATE, async (_event, state: WindowState) => {
+    await saveWindowState(state)
+  })
 
   // -------------------------------------------------------------------------
   // Menu service handlers

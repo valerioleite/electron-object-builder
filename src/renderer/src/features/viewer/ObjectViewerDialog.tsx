@@ -205,7 +205,10 @@ function ObdFileList({ files, selectedIndex, onSelect }: ObdFileListProps): Reac
 // ObjectViewerDialog
 // ---------------------------------------------------------------------------
 
-export function ObjectViewerDialog({ open, onClose }: ObjectViewerDialogProps): React.JSX.Element | null {
+export function ObjectViewerDialog({
+  open,
+  onClose
+}: ObjectViewerDialogProps): React.JSX.Element | null {
   const { t } = useTranslation()
   // Source modes: 'editing' uses current editing thing, 'obd' browses OBD files
   const [sourceMode, setSourceMode] = useState<'editing' | 'obd'>('editing')
@@ -326,9 +329,7 @@ export function ObjectViewerDialog({ open, onClose }: ObjectViewerDialogProps): 
       setPatternX(isOutfitCategory ? 2 : 0)
 
       const hasWalkingGroup =
-        isOutfitCategory &&
-        decoded.thing.frameGroups &&
-        decoded.thing.frameGroups.length > 1
+        isOutfitCategory && decoded.thing.frameGroups && decoded.thing.frameGroups.length > 1
       setFrameGroupType(hasWalkingGroup ? FGT.WALKING : FGT.DEFAULT)
     } catch (err) {
       setObdError(err instanceof Error ? err.message : String(err))
@@ -486,7 +487,13 @@ export function ObjectViewerDialog({ open, onClose }: ObjectViewerDialogProps): 
   if (!open) return null
 
   return (
-    <Modal title={t('labels.objectViewer')} open={open} onClose={onClose} width={800} closeOnBackdrop={false}>
+    <Modal
+      title={t('labels.objectViewer')}
+      open={open}
+      onClose={onClose}
+      width={800}
+      closeOnBackdrop={false}
+    >
       <div className="flex flex-col gap-3" style={{ minHeight: 450 }}>
         {/* Toolbar */}
         <div className="flex items-center gap-2 border-b border-border pb-2">
@@ -720,7 +727,9 @@ export function ObjectViewerDialog({ open, onClose }: ObjectViewerDialogProps): 
 
             {/* Zoom */}
             <div className="rounded border border-border p-2">
-              <div className="mb-1 text-xs font-semibold text-text-secondary">{t('labels.zoom')}</div>
+              <div className="mb-1 text-xs font-semibold text-text-secondary">
+                {t('labels.zoom')}
+              </div>
               <div className="flex items-center gap-2">
                 <input
                   type="range"

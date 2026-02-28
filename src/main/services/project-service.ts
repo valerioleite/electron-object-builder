@@ -33,10 +33,7 @@ import type {
   MergeProjectParams,
   MergeProjectResult
 } from '../../shared/project-state'
-import {
-  createProjectState,
-  applyProjectVersionDefaults
-} from '../../shared/project-state'
+import { createProjectState, applyProjectVersionDefaults } from '../../shared/project-state'
 import { saveRecoveryData, clearRecoveryData, backupFiles } from './recovery-service'
 
 // ---------------------------------------------------------------------------

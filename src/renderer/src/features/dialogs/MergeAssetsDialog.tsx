@@ -97,9 +97,7 @@ export function MergeAssetsDialog({
 
       const version = findVersionBySignatures(datSignature, sprSignature) ?? null
       const isExtended = version ? version.value >= 960 : false
-      const spritesCount = isExtended
-        ? sprView.getUint32(4, true)
-        : sprView.getUint16(4, true)
+      const spritesCount = isExtended ? sprView.getUint32(4, true) : sprView.getUint16(4, true)
 
       const info: MergeClientInfo = {
         datFile: discovery.datFile,
@@ -164,27 +162,26 @@ export function MergeAssetsDialog({
       footer={
         <>
           <DialogButton label={t('labels.cancel')} onClick={handleClose} />
-          <DialogButton label={t('labels.confirm')} onClick={handleConfirm} primary disabled={!canConfirm} />
+          <DialogButton
+            label={t('labels.confirm')}
+            onClick={handleConfirm}
+            primary
+            disabled={!canConfirm}
+          />
         </>
       }
     >
       <div className="flex flex-col gap-3">
         {/* Client folder */}
         <FieldGroup label={t('controls.clientFolder')}>
-          <BrowseField
-            label="Folder"
-            value={clientDirectory}
-            onBrowse={handleBrowseClient}
-          />
+          <BrowseField label="Folder" value={clientDirectory} onBrowse={handleBrowseClient} />
         </FieldGroup>
 
         {loading && (
           <div className="text-center text-xs text-text-secondary">Loading file info...</div>
         )}
 
-        {error && (
-          <div className="rounded bg-red-900/30 px-3 py-2 text-xs text-error">{error}</div>
-        )}
+        {error && <div className="rounded bg-red-900/30 px-3 py-2 text-xs text-error">{error}</div>}
 
         {clientInfo && (
           <>

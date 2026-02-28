@@ -426,10 +426,7 @@ function usePropertyUpdater(): (updates: Partial<ThingType>) => void {
 // Frame group update helper
 // ---------------------------------------------------------------------------
 
-function useFrameGroupUpdater(): (
-  groupType: FrameGroupType,
-  updates: Partial<FrameGroup>
-) => void {
+function useFrameGroupUpdater(): (groupType: FrameGroupType, updates: Partial<FrameGroup>) => void {
   const setEditingThingData = useEditorStore((s) => s.setEditingThingData)
   const setEditingChanged = useEditorStore((s) => s.setEditingChanged)
   const pushUndo = useEditorStore((s) => s.pushUndo)
@@ -477,8 +474,9 @@ function useFrameGroupUpdater(): (
       const updatedSprites = new Map(data.sprites)
       const existingSprites = updatedSprites.get(groupType) ?? []
       if (newTotal !== existingSprites.length) {
-        const newSprites = Array.from({ length: newTotal }, (_, i) =>
-          existingSprites[i] ?? createSpriteData()
+        const newSprites = Array.from(
+          { length: newTotal },
+          (_, i) => existingSprites[i] ?? createSpriteData()
         )
         updatedSprites.set(groupType, newSprites)
       }
@@ -487,9 +485,7 @@ function useFrameGroupUpdater(): (
         type: 'update-thing',
         timestamp: Date.now(),
         description: 'Update texture',
-        before: [
-          { id: beforeThing.id, category: beforeThing.category, thingType: beforeThing }
-        ],
+        before: [{ id: beforeThing.id, category: beforeThing.category, thingType: beforeThing }],
         after: [{ id: afterThing.id, category: afterThing.category, thingType: afterThing }]
       })
 
@@ -828,8 +824,7 @@ function EffectFlagsSection({
   clientVersion: number
 }): React.JSX.Element {
   const { t } = useTranslation()
-  const showTopEffect =
-    (clientVersion >= 710 && clientVersion <= 792) || clientVersion >= 1092
+  const showTopEffect = (clientVersion >= 710 && clientVersion <= 792) || clientVersion >= 1092
 
   if (!showTopEffect) return <React.Fragment />
 
@@ -1271,9 +1266,7 @@ function TextureTabContent({
               label={t('labels.frameStrategy')}
               value={frameGroup.loopCount < 0 ? 1 : 0}
               options={FRAME_STRATEGIES}
-              onChange={(v) =>
-                updateFrameGroup(frameGroupType, { loopCount: v === 1 ? -1 : 0 })
-              }
+              onChange={(v) => updateFrameGroup(frameGroupType, { loopCount: v === 1 ? -1 : 0 })}
             />
             {frameGroup.loopCount >= 0 && (
               <NumericField
@@ -1606,11 +1599,7 @@ function PropertiesTabContent({
       {isItem && (
         <>
           <SectionHeader title={t('labels.flags')} />
-          <FlagsSection
-            thing={thing}
-            onUpdate={updateProperty}
-            clientVersion={clientVersion}
-          />
+          <FlagsSection thing={thing} onUpdate={updateProperty} clientVersion={clientVersion} />
         </>
       )}
 
@@ -1624,11 +1613,7 @@ function PropertiesTabContent({
 
       {/* Effect-specific flags */}
       {isEffect && (
-        <EffectFlagsSection
-          thing={thing}
-          onUpdate={updateProperty}
-          clientVersion={clientVersion}
-        />
+        <EffectFlagsSection thing={thing} onUpdate={updateProperty} clientVersion={clientVersion} />
       )}
 
       {/* Bottom padding for scroll comfort */}

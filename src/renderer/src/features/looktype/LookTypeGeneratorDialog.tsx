@@ -6,7 +6,13 @@
 
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, DialogButton, FieldGroup, NumberInputField, CheckboxField } from '../../components/Modal'
+import {
+  Modal,
+  DialogButton,
+  FieldGroup,
+  NumberInputField,
+  CheckboxField
+} from '../../components/Modal'
 import { HSIColorPicker } from '../preview/HSIColorPicker'
 import { useAppStore } from '../../stores'
 import { ThingCategory } from '../../types/things'
@@ -140,12 +146,14 @@ export function LookTypeGeneratorDialog({
   // Reset on open
   // -------------------------------------------------------------------------
 
-  const prevOpenRef = React.useRef(false)
-  if (open && !prevOpenRef.current) {
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
     setState(createDefaultState())
     setPasteError(null)
   }
-  prevOpenRef.current = open
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
 
   // -------------------------------------------------------------------------
   // XML output
@@ -173,8 +181,7 @@ export function LookTypeGeneratorDialog({
   }, [state.typeId, state.asItem, clientInfo, getThingById])
 
   const outfitData = useMemo(
-    () =>
-      createOutfitData(state.head, state.body, state.legs, state.feet, state.addons),
+    () => createOutfitData(state.head, state.body, state.legs, state.feet, state.addons),
     [state.head, state.body, state.legs, state.feet, state.addons]
   )
 
@@ -182,21 +189,15 @@ export function LookTypeGeneratorDialog({
   // Handlers
   // -------------------------------------------------------------------------
 
-  const update = useCallback(
-    (patch: Partial<LookTypeState>) => {
-      setState((prev) => ({ ...prev, ...patch }))
-      setPasteError(null)
-    },
-    []
-  )
+  const update = useCallback((patch: Partial<LookTypeState>) => {
+    setState((prev) => ({ ...prev, ...patch }))
+    setPasteError(null)
+  }, [])
 
-  const handleAsItemChange = useCallback(
-    (checked: boolean) => {
-      setState((prev) => ({ ...prev, asItem: checked }))
-      setPasteError(null)
-    },
-    []
-  )
+  const handleAsItemChange = useCallback((checked: boolean) => {
+    setState((prev) => ({ ...prev, asItem: checked }))
+    setPasteError(null)
+  }, [])
 
   const handleCopy = useCallback(async () => {
     if (!xmlOutput) return
@@ -252,7 +253,13 @@ export function LookTypeGeneratorDialog({
   )
 
   return (
-    <Modal title={t('labels.lookTypeGenerator')} open={open} onClose={onClose} width={600} footer={footer}>
+    <Modal
+      title={t('labels.lookTypeGenerator')}
+      open={open}
+      onClose={onClose}
+      width={600}
+      footer={footer}
+    >
       <div className="flex flex-col gap-3">
         {/* Preview + Controls layout */}
         <div className="flex gap-4">
@@ -289,7 +296,7 @@ export function LookTypeGeneratorDialog({
                     value={state.typeId}
                     onChange={(v) => update({ typeId: v })}
                     min={0}
-                    max={0xFFFFFF}
+                    max={0xffffff}
                   />
                   <CheckboxField
                     label={t('labels.asItem')}
@@ -304,7 +311,11 @@ export function LookTypeGeneratorDialog({
             <FieldGroup label="Colors">
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 <div className="flex items-center gap-2">
-                  <HSIColorPicker label={t('labels.head')} value={state.head} onChange={(v) => update({ head: v })} />
+                  <HSIColorPicker
+                    label={t('labels.head')}
+                    value={state.head}
+                    onChange={(v) => update({ head: v })}
+                  />
                   <input
                     type="number"
                     className="w-12 rounded border border-border bg-bg-input px-1 py-0.5 text-xs text-text-primary outline-none focus:border-accent"
@@ -318,7 +329,11 @@ export function LookTypeGeneratorDialog({
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <HSIColorPicker label={t('labels.body')} value={state.body} onChange={(v) => update({ body: v })} />
+                  <HSIColorPicker
+                    label={t('labels.body')}
+                    value={state.body}
+                    onChange={(v) => update({ body: v })}
+                  />
                   <input
                     type="number"
                     className="w-12 rounded border border-border bg-bg-input px-1 py-0.5 text-xs text-text-primary outline-none focus:border-accent"
@@ -332,7 +347,11 @@ export function LookTypeGeneratorDialog({
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <HSIColorPicker label={t('labels.legs')} value={state.legs} onChange={(v) => update({ legs: v })} />
+                  <HSIColorPicker
+                    label={t('labels.legs')}
+                    value={state.legs}
+                    onChange={(v) => update({ legs: v })}
+                  />
                   <input
                     type="number"
                     className="w-12 rounded border border-border bg-bg-input px-1 py-0.5 text-xs text-text-primary outline-none focus:border-accent"
@@ -346,7 +365,11 @@ export function LookTypeGeneratorDialog({
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <HSIColorPicker label={t('labels.feet')} value={state.feet} onChange={(v) => update({ feet: v })} />
+                  <HSIColorPicker
+                    label={t('labels.feet')}
+                    value={state.feet}
+                    onChange={(v) => update({ feet: v })}
+                  />
                   <input
                     type="number"
                     className="w-12 rounded border border-border bg-bg-input px-1 py-0.5 text-xs text-text-primary outline-none focus:border-accent"
@@ -377,14 +400,14 @@ export function LookTypeGeneratorDialog({
                   value={state.mount}
                   onChange={(v) => update({ mount: v })}
                   min={0}
-                  max={0xFFFFFF}
+                  max={0xffffff}
                 />
                 <NumberInputField
                   label={t('labels.corpse')}
                   value={state.corpse}
                   onChange={(v) => update({ corpse: v })}
                   min={0}
-                  max={0xFFFFFF}
+                  max={0xffffff}
                 />
               </div>
             </FieldGroup>

@@ -26,7 +26,7 @@ beforeAll(() => {
         } else {
           this.data = data instanceof Uint8ClampedArray ? data : new Uint8ClampedArray(data)
           this.width = widthOrHeight!
-          this.height = height ?? (data.length / 4 / widthOrHeight!)
+          this.height = height ?? data.length / 4 / widthOrHeight!
         }
       }
     }
@@ -323,7 +323,7 @@ describe('extractFrame', () => {
   it('extracts specific frame index', () => {
     const sprites = [
       makeSolidSprite(0xff, 0xaa, 0x00, 0x00), // frame 0
-      makeSolidSprite(0xff, 0xbb, 0x00, 0x00)  // frame 1
+      makeSolidSprite(0xff, 0xbb, 0x00, 0x00) // frame 1
     ]
     const fg = makeFg({
       frames: 2,

@@ -88,7 +88,11 @@ function renderSpriteToCanvas(
   if (!pixels || pixels.length < SPRITE_DEFAULT_DATA_SIZE) return
 
   const rgba = argbToRgba(pixels)
-  const imageData = new ImageData(rgba, SPRITE_DEFAULT_SIZE, SPRITE_DEFAULT_SIZE)
+  const imageData = new ImageData(
+    rgba as Uint8ClampedArray<ArrayBuffer>,
+    SPRITE_DEFAULT_SIZE,
+    SPRITE_DEFAULT_SIZE
+  )
 
   if (displaySize !== SPRITE_DEFAULT_SIZE) {
     const offscreen = document.createElement('canvas')
@@ -261,7 +265,8 @@ export function SpritePanel(): React.JSX.Element {
   // Derived data
   const thing = editingThingData?.thing
   const frameGroup = thing?.frameGroups[frameGroupType]
-  const spriteIndex = frameGroup?.spriteIndex ?? []
+  const emptyArray: number[] = useMemo(() => [], [])
+  const spriteIndex = frameGroup?.spriteIndex ?? emptyArray
   const inlineSprites = editingThingData?.sprites.get(frameGroupType) ?? []
   const isOutfit = thing?.category === ThingCategory.OUTFIT
   const hasWalkingGroup = thing?.frameGroups[FrameGroupType.WALKING] != null
@@ -399,7 +404,8 @@ export function SpritePanel(): React.JSX.Element {
       // Swap sprite IDs in the spriteIndex
       const updatedThing = cloneThingType(editingThingData.thing)
       const fg = updatedThing.frameGroups[frameGroupType]
-      if (!fg || sourceIndex >= fg.spriteIndex.length || targetIndex >= fg.spriteIndex.length) return
+      if (!fg || sourceIndex >= fg.spriteIndex.length || targetIndex >= fg.spriteIndex.length)
+        return
 
       const newSpriteIndex = [...fg.spriteIndex]
       const temp = newSpriteIndex[sourceIndex]
@@ -425,8 +431,20 @@ export function SpritePanel(): React.JSX.Element {
         type: 'update-thing',
         timestamp: Date.now(),
         description: `Swap sprites #${sourceIndex} and #${targetIndex}`,
-        before: [{ id: editingThingData.thing.id, category: editingThingData.thing.category, thingType: cloneThingType(editingThingData.thing) }],
-        after: [{ id: editingThingData.thing.id, category: editingThingData.thing.category, thingType: cloneThingType(updatedThing) }]
+        before: [
+          {
+            id: editingThingData.thing.id,
+            category: editingThingData.thing.category,
+            thingType: cloneThingType(editingThingData.thing)
+          }
+        ],
+        after: [
+          {
+            id: editingThingData.thing.id,
+            category: editingThingData.thing.category,
+            thingType: cloneThingType(updatedThing)
+          }
+        ]
       })
 
       editorStore.setEditingThingData({
@@ -470,8 +488,11 @@ export function SpritePanel(): React.JSX.Element {
         if (!slot) return
         // Store compressed pixels from sprite store (or null for empty sprite)
         const compressed =
-          slot.spriteId > 0 ? useSpriteStore.getState().getSprite(slot.spriteId) ?? null : null
-        _spriteClipboard = { spriteId: slot.spriteId, pixels: compressed ? new Uint8Array(compressed) : null }
+          slot.spriteId > 0 ? (useSpriteStore.getState().getSprite(slot.spriteId) ?? null) : null
+        _spriteClipboard = {
+          spriteId: slot.spriteId,
+          pixels: compressed ? new Uint8Array(compressed) : null
+        }
         return
       }
 
@@ -520,14 +541,28 @@ export function SpritePanel(): React.JSX.Element {
           timestamp: Date.now(),
           description: `Paste sprite into slot #${selectedSlot}`,
           before: [{ id: beforeThing.id, category: beforeThing.category, thingType: beforeThing }],
-          after: [{ id: updatedThing.id, category: updatedThing.category, thingType: cloneThingType(updatedThing) }]
+          after: [
+            {
+              id: updatedThing.id,
+              category: updatedThing.category,
+              thingType: cloneThingType(updatedThing)
+            }
+          ]
         })
 
-        editorStore.setEditingThingData({ ...editingThingData, thing: updatedThing, sprites: newSpritesMap })
+        editorStore.setEditingThingData({
+          ...editingThingData,
+          thing: updatedThing,
+          sprites: newSpritesMap
+        })
         editorStore.setEditingChanged(true)
 
         const appStore = useAppStore.getState()
-        appStore.updateThing(editingThingData.thing.category, editingThingData.thing.id, updatedThing)
+        appStore.updateThing(
+          editingThingData.thing.category,
+          editingThingData.thing.id,
+          updatedThing
+        )
         appStore.setProjectChanged(true)
         if (window.api?.menu) {
           window.api.menu.updateState({ clientChanged: true })
@@ -566,14 +601,28 @@ export function SpritePanel(): React.JSX.Element {
           timestamp: Date.now(),
           description: `Remove sprite from slot #${selectedSlot}`,
           before: [{ id: beforeThing.id, category: beforeThing.category, thingType: beforeThing }],
-          after: [{ id: updatedThing.id, category: updatedThing.category, thingType: cloneThingType(updatedThing) }]
+          after: [
+            {
+              id: updatedThing.id,
+              category: updatedThing.category,
+              thingType: cloneThingType(updatedThing)
+            }
+          ]
         })
 
-        editorStore.setEditingThingData({ ...editingThingData, thing: updatedThing, sprites: newSpritesMap })
+        editorStore.setEditingThingData({
+          ...editingThingData,
+          thing: updatedThing,
+          sprites: newSpritesMap
+        })
         editorStore.setEditingChanged(true)
 
         const appStore = useAppStore.getState()
-        appStore.updateThing(editingThingData.thing.category, editingThingData.thing.id, updatedThing)
+        appStore.updateThing(
+          editingThingData.thing.category,
+          editingThingData.thing.id,
+          updatedThing
+        )
         appStore.setProjectChanged(true)
         if (window.api?.menu) {
           window.api.menu.updateState({ clientChanged: true })
@@ -605,14 +654,24 @@ export function SpritePanel(): React.JSX.Element {
           timestamp: Date.now(),
           description: `Fill sprite slot #${selectedSlot}`,
           before: [{ id: beforeThing.id, category: beforeThing.category, thingType: beforeThing }],
-          after: [{ id: updatedThing.id, category: updatedThing.category, thingType: cloneThingType(updatedThing) }]
+          after: [
+            {
+              id: updatedThing.id,
+              category: updatedThing.category,
+              thingType: cloneThingType(updatedThing)
+            }
+          ]
         })
 
         editorStore.setEditingThingData({ ...editingThingData, thing: updatedThing })
         editorStore.setEditingChanged(true)
 
         const appStore = useAppStore.getState()
-        appStore.updateThing(editingThingData.thing.category, editingThingData.thing.id, updatedThing)
+        appStore.updateThing(
+          editingThingData.thing.category,
+          editingThingData.thing.id,
+          updatedThing
+        )
         appStore.setProjectChanged(true)
         appStore.setSpriteCount(Math.max(appStore.spriteCount ?? 0, newSpriteId))
         if (window.api?.menu) {
@@ -621,17 +680,28 @@ export function SpritePanel(): React.JSX.Element {
         return
       }
     },
-    [editingThingData, frameGroup, frameGroupType, spriteIndex, selectedSlot, spriteSlots, transparent]
+    [
+      editingThingData,
+      frameGroup,
+      frameGroupType,
+      spriteIndex,
+      selectedSlot,
+      spriteSlots,
+      transparent
+    ]
   )
 
   // File drag-and-drop handlers (external files)
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    // Don't show file-drop indicator during internal sprite drag
-    if (dragSourceIndex !== null) return
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragOver(true)
-  }, [dragSourceIndex])
+  const handleDragOver = useCallback(
+    (e: React.DragEvent) => {
+      // Don't show file-drop indicator during internal sprite drag
+      if (dragSourceIndex !== null) return
+      e.preventDefault()
+      e.stopPropagation()
+      setIsDragOver(true)
+    },
+    [dragSourceIndex]
+  )
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -724,7 +794,11 @@ export function SpritePanel(): React.JSX.Element {
 
             // Update app store thing
             const appStore = useAppStore.getState()
-            appStore.updateThing(editingThingData.thing.category, editingThingData.thing.id, updatedThing)
+            appStore.updateThing(
+              editingThingData.thing.category,
+              editingThingData.thing.id,
+              updatedThing
+            )
             appStore.setProjectChanged(true)
             appStore.setSpriteCount(Math.max(appStore.spriteCount ?? 0, newSpriteId))
 
@@ -775,7 +849,8 @@ export function SpritePanel(): React.JSX.Element {
       {/* Header */}
       <div className="flex h-7 shrink-0 items-center justify-between border-b border-border px-2">
         <span className="text-xs font-medium text-text-secondary">
-          {t('labels.sprites')}{spriteSlots.length > 0 ? ` (${spriteSlots.length})` : ''}
+          {t('labels.sprites')}
+          {spriteSlots.length > 0 ? ` (${spriteSlots.length})` : ''}
         </span>
         {isOutfit && hasWalkingGroup && (
           <select
@@ -784,12 +859,8 @@ export function SpritePanel(): React.JSX.Element {
             onChange={handleFrameGroupChange}
             data-testid="frame-group-select"
           >
-            <option value={FrameGroupType.DEFAULT}>
-              {t('thingType.idle')}
-            </option>
-            <option value={FrameGroupType.WALKING}>
-              {t('thingType.walking')}
-            </option>
+            <option value={FrameGroupType.DEFAULT}>{t('thingType.idle')}</option>
+            <option value={FrameGroupType.WALKING}>{t('thingType.walking')}</option>
           </select>
         )}
       </div>
@@ -838,9 +909,7 @@ export function SpritePanel(): React.JSX.Element {
       </div>
 
       {/* Preview */}
-      {previewSlot && (
-        <SpritePreview spriteId={previewSlot.spriteId} pixels={previewSlot.pixels} />
-      )}
+      {previewSlot && <SpritePreview spriteId={previewSlot.spriteId} pixels={previewSlot.pixels} />}
 
       {/* Action buttons */}
       <div

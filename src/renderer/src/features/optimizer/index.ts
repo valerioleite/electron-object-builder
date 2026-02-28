@@ -1,7 +1,4 @@
-export {
-  SpritesOptimizerDialog,
-  type SpritesOptimizerDialogProps
-} from './SpritesOptimizerDialog'
+export { SpritesOptimizerDialog, type SpritesOptimizerDialogProps } from './SpritesOptimizerDialog'
 
 export {
   FrameDurationsOptimizerDialog,

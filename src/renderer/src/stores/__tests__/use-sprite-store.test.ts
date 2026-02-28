@@ -822,13 +822,23 @@ describe('use-sprite-store', () => {
 
   describe('loadFromBuffer', () => {
     it('creates a SpriteAccessor from SPR buffer', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]])
+      const buffer = makeSprBuffer([
+        [1, 0xaa],
+        [2, 0xbb]
+      ])
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       expect(useSpriteStore.getState().spriteAccessor).not.toBeNull()
     })
 
     it('sets totalSpriteCount from accessor', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]], false, 5)
+      const buffer = makeSprBuffer(
+        [
+          [1, 0xaa],
+          [2, 0xbb]
+        ],
+        false,
+        5
+      )
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       expect(useSpriteStore.getState().totalSpriteCount).toBe(5)
     })
@@ -862,7 +872,10 @@ describe('use-sprite-store', () => {
 
   describe('getSprite with accessor', () => {
     it('returns sprite from accessor when no override', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]])
+      const buffer = makeSprBuffer([
+        [1, 0xaa],
+        [2, 0xbb]
+      ])
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       const result = useSpriteStore.getState().getSprite(1)
       expect(result).toEqual(makePixels(0xaa))
@@ -907,7 +920,14 @@ describe('use-sprite-store', () => {
 
   describe('getAllSprites', () => {
     it('materializes all sprites from accessor', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [3, 0xcc]], false, 4)
+      const buffer = makeSprBuffer(
+        [
+          [1, 0xaa],
+          [3, 0xcc]
+        ],
+        false,
+        4
+      )
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       const all = useSpriteStore.getState().getAllSprites()
       expect(all.size).toBe(2)
@@ -926,7 +946,10 @@ describe('use-sprite-store', () => {
     })
 
     it('excludes deleted sprites', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]])
+      const buffer = makeSprBuffer([
+        [1, 0xaa],
+        [2, 0xbb]
+      ])
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       useSpriteStore.getState().removeSprite(1)
       const all = useSpriteStore.getState().getAllSprites()
@@ -935,7 +958,12 @@ describe('use-sprite-store', () => {
     })
 
     it('works with loadSprites (no accessor)', () => {
-      useSpriteStore.getState().loadSprites(makeSpritesMap([[1, 0xaa], [2, 0xbb]]))
+      useSpriteStore.getState().loadSprites(
+        makeSpritesMap([
+          [1, 0xaa],
+          [2, 0xbb]
+        ])
+      )
       const all = useSpriteStore.getState().getAllSprites()
       expect(all.size).toBe(2)
     })
@@ -956,7 +984,14 @@ describe('use-sprite-store', () => {
     })
 
     it('excludes deleted sprites', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]], false, 3)
+      const buffer = makeSprBuffer(
+        [
+          [1, 0xaa],
+          [2, 0xbb]
+        ],
+        false,
+        3
+      )
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       useSpriteStore.getState().removeSprite(1)
       expect(useSpriteStore.getState().getSpriteCount()).toBe(2)
@@ -974,7 +1009,10 @@ describe('use-sprite-store', () => {
 
   describe('removeSprite with accessor', () => {
     it('tracks deleted sprite in deletedSpriteIds', () => {
-      const buffer = makeSprBuffer([[1, 0xaa], [2, 0xbb]])
+      const buffer = makeSprBuffer([
+        [1, 0xaa],
+        [2, 0xbb]
+      ])
       useSpriteStore.getState().loadFromBuffer(buffer, false)
       useSpriteStore.getState().removeSprite(1)
       expect(useSpriteStore.getState().deletedSpriteIds.has(1)).toBe(true)

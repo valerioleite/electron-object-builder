@@ -9,7 +9,15 @@
 
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, DialogButton, FieldGroup, SelectField, CheckboxField, NumberInputField, TextInputField } from '../../components/Modal'
+import {
+  Modal,
+  DialogButton,
+  FieldGroup,
+  SelectField,
+  CheckboxField,
+  NumberInputField,
+  TextInputField
+} from '../../components/Modal'
 import { ThingCategory } from '../../types/things'
 import type { ThingType } from '../../types/things'
 
@@ -182,17 +190,28 @@ export function FindDialog({
   }, [activeTab, thingFilters, spriteFilters, onFindThings, onFindSprites])
 
   const handleSelect = useCallback(() => {
-    if (activeTab === 'things' && selectedResultIndex >= 0 && selectedResultIndex < thingResults.length) {
+    if (
+      activeTab === 'things' &&
+      selectedResultIndex >= 0 &&
+      selectedResultIndex < thingResults.length
+    ) {
       const thing = thingResults[selectedResultIndex]
       onSelectThing?.(thing.id, thing.category)
-    } else if (activeTab === 'sprites' && selectedResultIndex >= 0 && selectedResultIndex < spriteResults.length) {
+    } else if (
+      activeTab === 'sprites' &&
+      selectedResultIndex >= 0 &&
+      selectedResultIndex < spriteResults.length
+    ) {
       onSelectSprite?.(spriteResults[selectedResultIndex])
     }
   }, [activeTab, selectedResultIndex, thingResults, spriteResults, onSelectThing, onSelectSprite])
 
-  const updateThingFilter = useCallback(<K extends keyof FindThingFilters>(key: K, value: FindThingFilters[K]) => {
-    setThingFilters((prev) => ({ ...prev, [key]: value }))
-  }, [])
+  const updateThingFilter = useCallback(
+    <K extends keyof FindThingFilters>(key: K, value: FindThingFilters[K]) => {
+      setThingFilters((prev) => ({ ...prev, [key]: value }))
+    },
+    []
+  )
 
   const toggleProperty = useCallback((key: string) => {
     setThingFilters((prev) => ({
@@ -229,8 +248,17 @@ export function FindDialog({
       footer={
         <>
           <DialogButton label="Reset" onClick={handleReset} />
-          <DialogButton label={t('labels.find')} onClick={handleFind} primary disabled={isSearching} />
-          <DialogButton label="Select" onClick={handleSelect} disabled={!canSelect || isSearching} />
+          <DialogButton
+            label={t('labels.find')}
+            onClick={handleFind}
+            primary
+            disabled={isSearching}
+          />
+          <DialogButton
+            label="Select"
+            onClick={handleSelect}
+            disabled={!canSelect || isSearching}
+          />
           <DialogButton label={t('labels.close')} onClick={onClose} />
         </>
       }
@@ -244,7 +272,10 @@ export function FindDialog({
                 ? 'border-b-2 border-accent text-accent'
                 : 'text-text-secondary hover:text-text-primary'
             }`}
-            onClick={() => { setActiveTab('things'); setSelectedResultIndex(-1) }}
+            onClick={() => {
+              setActiveTab('things')
+              setSelectedResultIndex(-1)
+            }}
           >
             {t('labels.things')}
           </button>
@@ -254,7 +285,10 @@ export function FindDialog({
                 ? 'border-b-2 border-accent text-accent'
                 : 'text-text-secondary hover:text-text-primary'
             }`}
-            onClick={() => { setActiveTab('sprites'); setSelectedResultIndex(-1) }}
+            onClick={() => {
+              setActiveTab('sprites')
+              setSelectedResultIndex(-1)
+            }}
           >
             {t('labels.sprites')}
           </button>
@@ -291,15 +325,69 @@ export function FindDialog({
             {/* Patterns */}
             <FieldGroup label="Patterns">
               <div className="grid grid-cols-4 gap-2">
-                <NumberInputField label="Width" value={thingFilters.width} onChange={(v) => updateThingFilter('width', v)} min={0} max={255} />
-                <NumberInputField label="Height" value={thingFilters.height} onChange={(v) => updateThingFilter('height', v)} min={0} max={255} />
-                <NumberInputField label="Exact Size" value={thingFilters.exactSize} onChange={(v) => updateThingFilter('exactSize', v)} min={0} max={255} />
-                <NumberInputField label="Layers" value={thingFilters.layers} onChange={(v) => updateThingFilter('layers', v)} min={0} max={255} />
-                <NumberInputField label="Pattern X" value={thingFilters.patternX} onChange={(v) => updateThingFilter('patternX', v)} min={0} max={255} />
-                <NumberInputField label="Pattern Y" value={thingFilters.patternY} onChange={(v) => updateThingFilter('patternY', v)} min={0} max={255} />
-                <NumberInputField label="Pattern Z" value={thingFilters.patternZ} onChange={(v) => updateThingFilter('patternZ', v)} min={0} max={255} />
-                <NumberInputField label="Frames" value={thingFilters.frames} onChange={(v) => updateThingFilter('frames', v)} min={0} max={255} />
-                <NumberInputField label="Groups" value={thingFilters.frameGroups} onChange={(v) => updateThingFilter('frameGroups', v)} min={0} max={255} />
+                <NumberInputField
+                  label="Width"
+                  value={thingFilters.width}
+                  onChange={(v) => updateThingFilter('width', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Height"
+                  value={thingFilters.height}
+                  onChange={(v) => updateThingFilter('height', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Exact Size"
+                  value={thingFilters.exactSize}
+                  onChange={(v) => updateThingFilter('exactSize', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Layers"
+                  value={thingFilters.layers}
+                  onChange={(v) => updateThingFilter('layers', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Pattern X"
+                  value={thingFilters.patternX}
+                  onChange={(v) => updateThingFilter('patternX', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Pattern Y"
+                  value={thingFilters.patternY}
+                  onChange={(v) => updateThingFilter('patternY', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Pattern Z"
+                  value={thingFilters.patternZ}
+                  onChange={(v) => updateThingFilter('patternZ', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Frames"
+                  value={thingFilters.frames}
+                  onChange={(v) => updateThingFilter('frames', v)}
+                  min={0}
+                  max={255}
+                />
+                <NumberInputField
+                  label="Groups"
+                  value={thingFilters.frameGroups}
+                  onChange={(v) => updateThingFilter('frameGroups', v)}
+                  min={0}
+                  max={255}
+                />
               </div>
             </FieldGroup>
 
@@ -368,7 +456,9 @@ export function FindDialog({
                       : 'text-text-primary hover:bg-bg-tertiary'
                   }`}
                   onClick={() => setSelectedResultIndex(i)}
-                  onDoubleClick={() => { onSelectThing?.(thing.id, thing.category) }}
+                  onDoubleClick={() => {
+                    onSelectThing?.(thing.id, thing.category)
+                  }}
                 >
                   <span className="font-medium">#{thing.id}</span>
                   {(thing.marketName || thing.name) && (
@@ -386,7 +476,9 @@ export function FindDialog({
                       : 'text-text-primary hover:bg-bg-tertiary'
                   }`}
                   onClick={() => setSelectedResultIndex(i)}
-                  onDoubleClick={() => { onSelectSprite?.(spriteId) }}
+                  onDoubleClick={() => {
+                    onSelectSprite?.(spriteId)
+                  }}
                 >
                   Sprite #{spriteId}
                 </div>

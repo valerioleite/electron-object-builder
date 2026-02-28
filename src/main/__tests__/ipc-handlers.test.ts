@@ -125,8 +125,8 @@ describe('IPC Channels', () => {
     expect(channels.INVOKE_CHANNELS).toContain(channels.MENU_UPDATE_STATE)
     expect(channels.INVOKE_CHANNELS).toContain(channels.MENU_GET_STATE)
 
-    // Total: 42 invoke channels (32 original + 8 settings + 2 menu)
-    expect(channels.INVOKE_CHANNELS).toHaveLength(42)
+    // Total: 51 invoke channels (32 original + 8 settings + 2 menu + 3 logger + 1 app + 2 recovery + 3 updater)
+    expect(channels.INVOKE_CHANNELS).toHaveLength(51)
   })
 
   it('EVENT_CHANNELS contains all event channels', async () => {
@@ -135,7 +135,7 @@ describe('IPC Channels', () => {
     expect(channels.EVENT_CHANNELS).toContain(channels.FILE_CHANGED)
     expect(channels.EVENT_CHANNELS).toContain(channels.PROJECT_STATE_CHANGED)
     expect(channels.EVENT_CHANNELS).toContain(channels.MENU_ACTION)
-    expect(channels.EVENT_CHANNELS).toHaveLength(3)
+    expect(channels.EVENT_CHANNELS).toHaveLength(5)
   })
 
   it('no channel appears in both INVOKE and EVENT lists', async () => {

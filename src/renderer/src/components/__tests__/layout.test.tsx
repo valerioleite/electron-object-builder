@@ -261,7 +261,7 @@ describe('Toolbar', () => {
     expect(screen.getByTitle('Object Viewer')).toBeInTheDocument()
     expect(screen.getByTitle('Sprites')).toBeInTheDocument()
     expect(screen.getByTitle('Animation Editor')).toBeInTheDocument()
-    expect(screen.getByTitle(/Log/)).toBeInTheDocument()
+    expect(screen.getByTitle(/Log Window/)).toBeInTheDocument()
   })
 
   it('disables compile when no changes or temporary', () => {
@@ -337,7 +337,7 @@ describe('Toolbar', () => {
     fireEvent.click(screen.getByTitle('Animation Editor'))
     expect(onAction).toHaveBeenLastCalledWith('toolsAnimationEditor')
 
-    fireEvent.click(screen.getByTitle(/Log/))
+    fireEvent.click(screen.getByTitle(/Log Window/))
     expect(onAction).toHaveBeenLastCalledWith('windowLog')
   })
 
@@ -591,7 +591,7 @@ describe('App layout', () => {
   it('toggles log panel via toolbar log button', () => {
     render(<App />)
     expect(screen.getByText('Log Window')).toBeInTheDocument()
-    fireEvent.click(screen.getByTitle(/Log/))
+    fireEvent.click(screen.getByTitle(/Log Window/))
     expect(screen.queryByText('Log Window')).not.toBeInTheDocument()
   })
 })

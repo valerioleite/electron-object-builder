@@ -38,7 +38,12 @@ interface CategoryGroupProps {
   disabled: boolean
 }
 
-function CategoryGroup({ label, config, onChange, disabled }: CategoryGroupProps): React.JSX.Element {
+function CategoryGroup({
+  label,
+  config,
+  onChange,
+  disabled
+}: CategoryGroupProps): React.JSX.Element {
   const handleEnabledChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange({ ...config, enabled: e.target.checked })
@@ -154,9 +159,21 @@ export function FrameDurationsOptimizerDialog({
     // Load defaults from settings asynchronously
     if (window.api?.settings?.load) {
       window.api.settings.load().then((settings) => {
-        setItemsConfig({ enabled: false, minimum: settings.itemsDuration, maximum: settings.itemsDuration })
-        setOutfitsConfig({ enabled: false, minimum: settings.outfitsDuration, maximum: settings.outfitsDuration })
-        setEffectsConfig({ enabled: false, minimum: settings.effectsDuration, maximum: settings.effectsDuration })
+        setItemsConfig({
+          enabled: false,
+          minimum: settings.itemsDuration,
+          maximum: settings.itemsDuration
+        })
+        setOutfitsConfig({
+          enabled: false,
+          minimum: settings.outfitsDuration,
+          maximum: settings.outfitsDuration
+        })
+        setEffectsConfig({
+          enabled: false,
+          minimum: settings.effectsDuration,
+          maximum: settings.effectsDuration
+        })
       })
     }
   }
@@ -235,9 +252,7 @@ export function FrameDurationsOptimizerDialog({
   // -------------------------------------------------------------------------
 
   const hasAnyEnabled = itemsConfig.enabled || outfitsConfig.enabled || effectsConfig.enabled
-  const progressPercent = progress
-    ? Math.round((progress.step / progress.totalSteps) * 100)
-    : 0
+  const progressPercent = progress ? Math.round((progress.step / progress.totalSteps) * 100) : 0
 
   const footer = (
     <div className="flex w-full items-center justify-between">

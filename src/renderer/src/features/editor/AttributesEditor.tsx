@@ -93,10 +93,7 @@ function AttributeRow({
   return (
     <div className="flex items-center gap-2 py-[2px]" data-testid={`attr-row-${attrKey}`}>
       {/* Key label */}
-      <span
-        className="min-w-[120px] truncate text-[11px] text-text-primary"
-        title={attrKey}
-      >
+      <span className="min-w-[120px] truncate text-[11px] text-text-primary" title={attrKey}>
         {attrKey}
       </span>
 
@@ -162,7 +159,7 @@ function AttributeRow({
             type="text"
             value={value}
             onChange={(e) => {
-              const v = e.target.value.replace(/[^0-9.\-]/g, '')
+              const v = e.target.value.replace(/[^0-9.-]/g, '')
               onChange(attrKey, v)
             }}
             disabled={disabled}
@@ -231,7 +228,8 @@ export function AttributesEditor({
   }, [serverName])
 
   // Categories for the current server
-  const categories = useMemo(() => getCategories(), [serverName])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const categories = useMemo(() => getCategories(), [allAttrs])
 
   // Current active attributes (from xmlAttributes prop)
   const activeKeys = useMemo(() => {
@@ -370,7 +368,9 @@ export function AttributesEditor({
 
             {/* Name */}
             <div className="flex items-center gap-2">
-              <span className="min-w-[70px] text-[11px] text-text-secondary">{t('labels.name')}:</span>
+              <span className="min-w-[70px] text-[11px] text-text-secondary">
+                {t('labels.name')}:
+              </span>
               <input
                 type="text"
                 value={name}
@@ -485,9 +485,7 @@ export function AttributesEditor({
             {Object.entries(attrsByCategory).map(([cat, attrs]) => (
               <div key={cat} className="mb-1">
                 <button
-                  onClick={() =>
-                    setExpandedCategory(expandedCategory === cat ? null : cat)
-                  }
+                  onClick={() => setExpandedCategory(expandedCategory === cat ? null : cat)}
                   disabled={disabled}
                   className="flex w-full items-center gap-1 rounded px-1 py-0.5 text-left text-[11px] font-medium text-text-primary transition-colors hover:bg-bg-tertiary disabled:opacity-40"
                   data-testid={`category-${cat}`}

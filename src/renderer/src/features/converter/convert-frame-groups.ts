@@ -92,7 +92,8 @@ export async function convertFrameGroups(
   onProgress({
     step: 2,
     totalSteps,
-    label: changed > 0 ? `Done - ${changed} outfits converted` : 'Done - no outfits needed conversion'
+    label:
+      changed > 0 ? `Done - ${changed} outfits converted` : 'Done - no outfits needed conversion'
   })
   await yieldToUI()
 

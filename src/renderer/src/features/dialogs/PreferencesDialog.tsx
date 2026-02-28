@@ -49,10 +49,18 @@ export function PreferencesDialog({
   const [activeTab, setActiveTab] = useState<TabId>('general')
   const [settings, setSettings] = useState<ObjectBuilderSettings>(createObjectBuilderSettings)
 
-  // Load settings when dialog opens
+  // Reset tab on open (render-time state adjustment)
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
+    setActiveTab('general')
+  }
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
+
+  // Load settings when dialog opens (async side effect)
   useEffect(() => {
     if (!open) return
-    setActiveTab('general')
 
     if (window.api?.settings) {
       window.api.settings.load().then((loaded) => {
@@ -169,10 +177,7 @@ export function PreferencesDialog({
 
 interface TabProps {
   settings: ObjectBuilderSettings
-  onUpdate: <K extends keyof ObjectBuilderSettings>(
-    key: K,
-    value: ObjectBuilderSettings[K]
-  ) => void
+  onUpdate: <K extends keyof ObjectBuilderSettings>(key: K, value: ObjectBuilderSettings[K]) => void
 }
 
 function GeneralTab({

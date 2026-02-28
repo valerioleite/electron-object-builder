@@ -4,12 +4,7 @@
  * Offloads LZMA compression/decompression from the main thread.
  */
 
-import type {
-  WorkerRequest,
-  WorkerResponse,
-  EncodeObdPayload,
-  DecodeObdPayload
-} from './types'
+import type { WorkerRequest, WorkerResponse, EncodeObdPayload, DecodeObdPayload } from './types'
 import { encodeObd, decodeObd } from '../services/obd/obd-encoder'
 import { OBD_WORKER_ENCODE, OBD_WORKER_DECODE } from './types'
 

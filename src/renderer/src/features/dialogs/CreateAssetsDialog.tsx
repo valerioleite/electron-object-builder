@@ -54,7 +54,8 @@ export function CreateAssetsDialog({
     []
   )
 
-  const selectedVersion = selectedVersionIndex !== '' ? VERSIONS[Number(selectedVersionIndex)] : null
+  const selectedVersion =
+    selectedVersionIndex !== '' ? VERSIONS[Number(selectedVersionIndex)] : null
 
   const handleVersionChange = useCallback(
     (indexStr: string) => {

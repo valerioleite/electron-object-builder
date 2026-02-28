@@ -86,11 +86,7 @@ export function FrameGroupsConverterDialog({
         defaultDuration: getDefaultDuration(settings, ThingCategory.OUTFIT)
       }
 
-      const convertResult = await convertFrameGroups(
-        appState.things.outfits,
-        config,
-        setProgress
-      )
+      const convertResult = await convertFrameGroups(appState.things.outfits, config, setProgress)
 
       if (convertResult.changed > 0) {
         // Clear editing data

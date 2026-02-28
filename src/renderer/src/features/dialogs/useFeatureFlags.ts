@@ -15,9 +15,11 @@ export interface FeatureFlags {
 /**
  * Returns whether a feature is forced ON by the version and cannot be toggled off.
  */
-export function isFeatureForced(
-  versionValue: number
-): { extended: boolean; improvedAnimations: boolean; frameGroups: boolean } {
+export function isFeatureForced(versionValue: number): {
+  extended: boolean
+  improvedAnimations: boolean
+  frameGroups: boolean
+} {
   return {
     extended: versionValue >= 960,
     improvedAnimations: versionValue >= 1050,

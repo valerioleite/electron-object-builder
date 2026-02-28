@@ -19,13 +19,7 @@ export interface OutfitData {
   addons: number
 }
 
-export function createOutfitData(
-  head = 0,
-  body = 0,
-  legs = 0,
-  feet = 0,
-  addons = 0
-): OutfitData {
+export function createOutfitData(head = 0, body = 0, legs = 0, feet = 0, addons = 0): OutfitData {
   return { head, body, legs, feet, addons }
 }
 

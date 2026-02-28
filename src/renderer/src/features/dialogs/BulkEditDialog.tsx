@@ -10,7 +10,7 @@
  * Item / Outfit / Effect / Missile.
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Modal,
@@ -98,13 +98,9 @@ const ITEM_PROPERTIES: PropertyDef[] = [
   { key: 'unwrappable', label: 'Unwrappable' }
 ]
 
-const OUTFIT_PROPERTIES: PropertyDef[] = [
-  { key: 'animateAlways', label: 'Animate Always' }
-]
+const OUTFIT_PROPERTIES: PropertyDef[] = [{ key: 'animateAlways', label: 'Animate Always' }]
 
-const EFFECT_PROPERTIES: PropertyDef[] = [
-  { key: 'topEffect', label: 'Top Effect' }
-]
+const EFFECT_PROPERTIES: PropertyDef[] = [{ key: 'topEffect', label: 'Top Effect' }]
 
 // ---------------------------------------------------------------------------
 // Animation mode / frame strategy options
@@ -228,24 +224,26 @@ export function BulkEditDialog({
     []
   )
 
-  // Reset state on open
-  useEffect(() => {
-    if (open) {
-      setActiveTab('properties')
-      setPropertyStates({})
-      setChangeAnimationMode(false)
-      setAnimationMode(0)
-      setChangeFrameStrategy(false)
-      setFrameStrategy(0)
-      setChangeDuration(false)
-      setMinDuration(100)
-      setMaxDuration(100)
-      setFrameGroupTarget(-1)
-      setClearAttributes(true)
-      setPreserveNamePlural(true)
-      setBulkAttributes(null)
-    }
-  }, [open])
+  // Reset state on open (render-time state adjustment)
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
+    setActiveTab('properties')
+    setPropertyStates({})
+    setChangeAnimationMode(false)
+    setAnimationMode(0)
+    setChangeFrameStrategy(false)
+    setFrameStrategy(0)
+    setChangeDuration(false)
+    setMinDuration(100)
+    setMaxDuration(100)
+    setFrameGroupTarget(-1)
+    setClearAttributes(true)
+    setPreserveNamePlural(true)
+    setBulkAttributes(null)
+  }
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
 
   // Property state helpers
   const getPropertyState = useCallback(
@@ -290,8 +288,7 @@ export function BulkEditDialog({
         property: '_bulkDuration',
         minDuration,
         maxDuration,
-        frameGroupTarget:
-          category === ThingCategory.OUTFIT ? frameGroupTarget : -1
+        frameGroupTarget: category === ThingCategory.OUTFIT ? frameGroupTarget : -1
       })
     }
 
@@ -353,8 +350,8 @@ export function BulkEditDialog({
             {t('labels.itemsSelected', { 0: selectedIds.length })}
           </p>
           <p className="text-[11px] text-text-secondary">
-            Check &quot;{t('labels.change')}&quot; next to properties you want to modify, then set the desired
-            value.
+            Check &quot;{t('labels.change')}&quot; next to properties you want to modify, then set
+            the desired value.
           </p>
         </div>
 
@@ -473,9 +470,7 @@ export function BulkEditDialog({
 
               {category === ThingCategory.MISSILE && (
                 <FieldGroup label="Properties">
-                  <p className="text-xs text-text-secondary">
-                    {t('labels.noPropertiesAvailable')}
-                  </p>
+                  <p className="text-xs text-text-secondary">{t('labels.noPropertiesAvailable')}</p>
                 </FieldGroup>
               )}
 

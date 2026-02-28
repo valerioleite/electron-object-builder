@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { AttributesEditor } from '../AttributesEditor'
 import { loadServer, resetAttributeStorage } from '../../../services/item-attributes'
@@ -153,7 +153,9 @@ describe('AttributesEditor', () => {
       const onChange = vi.fn()
       renderEditor({ xmlAttributes: { name: 'sword' }, onChange })
       fireEvent.change(screen.getByTestId('basic-article'), { target: { value: 'a' } })
-      expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ article: 'a', name: 'sword' }))
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ article: 'a', name: 'sword' })
+      )
     })
 
     it('calls onChange when name changes', () => {

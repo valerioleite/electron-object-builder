@@ -8,8 +8,7 @@ import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { ExportDialog } from '../ExportDialog'
-import { ImageFormat, OTFormat } from '../../../types/project'
-import { VERSIONS } from '../../../data'
+import { ImageFormat } from '../../../types/project'
 
 // ---------------------------------------------------------------------------
 // Mock window.api
@@ -180,8 +179,9 @@ describe('ExportDialog', () => {
     // Buttons with text "Export" in the footer (the primary one)
     const exportButtons = screen.getAllByText('Export')
     // The primary export button is the one in the footer
-    const exportBtn = exportButtons.find((btn) => btn.tagName === 'BUTTON' && btn !== exportButtons[0])
-      || exportButtons[exportButtons.length - 1]
+    const exportBtn =
+      exportButtons.find((btn) => btn.tagName === 'BUTTON' && btn !== exportButtons[0]) ||
+      exportButtons[exportButtons.length - 1]
     expect(exportBtn).toBeDisabled()
   })
 

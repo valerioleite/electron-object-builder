@@ -56,11 +56,7 @@ export class WorkerManager {
    * @param payload - Request payload data
    * @param transfer - Optional transferable objects (e.g., ArrayBuffers) for zero-copy transfer
    */
-  request<TResult>(
-    type: string,
-    payload: unknown,
-    transfer?: Transferable[]
-  ): Promise<TResult> {
+  request<TResult>(type: string, payload: unknown, transfer?: Transferable[]): Promise<TResult> {
     if (this.terminated) {
       return Promise.reject(new Error('Worker has been terminated'))
     }

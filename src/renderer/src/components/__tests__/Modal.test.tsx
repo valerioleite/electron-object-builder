@@ -202,9 +202,7 @@ describe('DialogButton', () => {
   })
 
   it('has different styling for primary=true', () => {
-    const { rerender } = render(
-      <DialogButton label="Primary" onClick={vi.fn()} primary />
-    )
+    const { rerender } = render(<DialogButton label="Primary" onClick={vi.fn()} primary />)
     const primaryButton = screen.getByText('Primary')
     // Primary button has bg-accent (solid background) and text-bg-primary
     expect(primaryButton.className).toContain('bg-accent')
@@ -257,9 +255,7 @@ describe('SelectField', () => {
   ]
 
   it('renders label and all options', () => {
-    render(
-      <SelectField label="Choose" value="a" onChange={vi.fn()} options={options} />
-    )
+    render(<SelectField label="Choose" value="a" onChange={vi.fn()} options={options} />)
     expect(screen.getByText('Choose')).toBeInTheDocument()
     expect(screen.getByText('Option A')).toBeInTheDocument()
     expect(screen.getByText('Option B')).toBeInTheDocument()
@@ -268,18 +264,14 @@ describe('SelectField', () => {
 
   it('calls onChange with selected value', () => {
     const handleChange = vi.fn()
-    render(
-      <SelectField label="Choose" value="a" onChange={handleChange} options={options} />
-    )
+    render(<SelectField label="Choose" value="a" onChange={handleChange} options={options} />)
     const select = screen.getByRole('combobox')
     fireEvent.change(select, { target: { value: 'b' } })
     expect(handleChange).toHaveBeenCalledWith('b')
   })
 
   it('disables when disabled=true', () => {
-    render(
-      <SelectField label="Choose" value="a" onChange={vi.fn()} options={options} disabled />
-    )
+    render(<SelectField label="Choose" value="a" onChange={vi.fn()} options={options} disabled />)
     const select = screen.getByRole('combobox')
     expect(select).toBeDisabled()
   })
@@ -316,9 +308,7 @@ describe('CheckboxField', () => {
 
 describe('TextInputField', () => {
   it('renders label and value', () => {
-    render(
-      <TextInputField label="Name" value="Hello" onChange={vi.fn()} />
-    )
+    render(<TextInputField label="Name" value="Hello" onChange={vi.fn()} />)
     expect(screen.getByText('Name')).toBeInTheDocument()
     const input = screen.getByRole('textbox') as HTMLInputElement
     expect(input.value).toBe('Hello')
@@ -326,9 +316,7 @@ describe('TextInputField', () => {
 
   it('calls onChange on input', () => {
     const handleChange = vi.fn()
-    render(
-      <TextInputField label="Name" value="" onChange={handleChange} />
-    )
+    render(<TextInputField label="Name" value="" onChange={handleChange} />)
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: 'World' } })
     expect(handleChange).toHaveBeenCalledWith('World')
@@ -341,9 +329,7 @@ describe('TextInputField', () => {
     const input = screen.getByRole('textbox') as HTMLInputElement
     expect(input.readOnly).toBe(true)
 
-    rerender(
-      <TextInputField label="Name" value="Fixed" onChange={vi.fn()} disabled />
-    )
+    rerender(<TextInputField label="Name" value="Fixed" onChange={vi.fn()} disabled />)
     const disabledInput = screen.getByRole('textbox') as HTMLInputElement
     expect(disabledInput).toBeDisabled()
   })
@@ -355,9 +341,7 @@ describe('TextInputField', () => {
 
 describe('BrowseField', () => {
   it('renders label, value, and browse button', () => {
-    render(
-      <BrowseField label="Folder" value="/home/user" onBrowse={vi.fn()} />
-    )
+    render(<BrowseField label="Folder" value="/home/user" onBrowse={vi.fn()} />)
     expect(screen.getByText('Folder')).toBeInTheDocument()
     const input = screen.getByDisplayValue('/home/user') as HTMLInputElement
     expect(input).toBeInTheDocument()
@@ -367,17 +351,13 @@ describe('BrowseField', () => {
 
   it('calls onBrowse when browse button clicked', () => {
     const handleBrowse = vi.fn()
-    render(
-      <BrowseField label="Folder" value="" onBrowse={handleBrowse} />
-    )
+    render(<BrowseField label="Folder" value="" onBrowse={handleBrowse} />)
     fireEvent.click(screen.getByText('Browse'))
     expect(handleBrowse).toHaveBeenCalledTimes(1)
   })
 
   it('uses default placeholder when none provided', () => {
-    render(
-      <BrowseField label="Folder" value="" onBrowse={vi.fn()} />
-    )
+    render(<BrowseField label="Folder" value="" onBrowse={vi.fn()} />)
     const input = screen.getByPlaceholderText('Select folder...')
     expect(input).toBeInTheDocument()
   })
@@ -407,9 +387,7 @@ describe('InfoRow', () => {
 
 describe('NumberInputField', () => {
   it('renders label and value', () => {
-    render(
-      <NumberInputField label="Speed" value={100} onChange={vi.fn()} />
-    )
+    render(<NumberInputField label="Speed" value={100} onChange={vi.fn()} />)
     expect(screen.getByText('Speed')).toBeInTheDocument()
     const input = screen.getByRole('spinbutton') as HTMLInputElement
     expect(input.value).toBe('100')
@@ -417,9 +395,7 @@ describe('NumberInputField', () => {
 
   it('calls onChange with number value', () => {
     const handleChange = vi.fn()
-    render(
-      <NumberInputField label="Speed" value={100} onChange={handleChange} />
-    )
+    render(<NumberInputField label="Speed" value={100} onChange={handleChange} />)
     const input = screen.getByRole('spinbutton')
     fireEvent.change(input, { target: { value: '200' } })
     expect(handleChange).toHaveBeenCalledWith(200)
@@ -427,9 +403,7 @@ describe('NumberInputField', () => {
 
   it('calls onChange with 0 for empty input (NaN guard passes for empty string)', () => {
     const handleChange = vi.fn()
-    render(
-      <NumberInputField label="Speed" value={100} onChange={handleChange} />
-    )
+    render(<NumberInputField label="Speed" value={100} onChange={handleChange} />)
     const input = screen.getByRole('spinbutton')
     // In jsdom, type="number" inputs normalize non-numeric strings (like 'abc') to ''.
     // Number('') === 0 which is not NaN, so onChange IS called with 0.
@@ -439,23 +413,14 @@ describe('NumberInputField', () => {
   })
 
   it('disables when disabled=true', () => {
-    render(
-      <NumberInputField label="Speed" value={100} onChange={vi.fn()} disabled />
-    )
+    render(<NumberInputField label="Speed" value={100} onChange={vi.fn()} disabled />)
     const input = screen.getByRole('spinbutton')
     expect(input).toBeDisabled()
   })
 
   it('passes min, max, and step attributes', () => {
     render(
-      <NumberInputField
-        label="Speed"
-        value={50}
-        onChange={vi.fn()}
-        min={0}
-        max={200}
-        step={10}
-      />
+      <NumberInputField label="Speed" value={50} onChange={vi.fn()} min={0} max={200} step={10} />
     )
     const input = screen.getByRole('spinbutton') as HTMLInputElement
     expect(input.min).toBe('0')
@@ -471,13 +436,7 @@ describe('NumberInputField', () => {
 describe('RadioField', () => {
   it('renders label and radio input', () => {
     render(
-      <RadioField
-        label="Option A"
-        name="group1"
-        value="a"
-        checked={false}
-        onChange={vi.fn()}
-      />
+      <RadioField label="Option A" name="group1" value="a" checked={false} onChange={vi.fn()} />
     )
     expect(screen.getByText('Option A')).toBeInTheDocument()
     const radio = screen.getByRole('radio') as HTMLInputElement
@@ -505,13 +464,7 @@ describe('RadioField', () => {
 
   it('renders as checked when checked=true', () => {
     render(
-      <RadioField
-        label="Option A"
-        name="group1"
-        value="a"
-        checked={true}
-        onChange={vi.fn()}
-      />
+      <RadioField label="Option A" name="group1" value="a" checked={true} onChange={vi.fn()} />
     )
     const radio = screen.getByRole('radio') as HTMLInputElement
     expect(radio.checked).toBe(true)

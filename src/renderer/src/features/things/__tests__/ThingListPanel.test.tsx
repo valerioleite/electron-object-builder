@@ -201,7 +201,9 @@ describe('ThingListPanel', () => {
 
       const input = screen.getByTestId('thing-search-input')
       fireEvent.change(input, { target: { value: '102' } })
-      act(() => { vi.advanceTimersByTime(200) })
+      act(() => {
+        vi.advanceTimersByTime(200)
+      })
 
       expect(screen.getByTestId('thing-list-item-102')).toBeInTheDocument()
       expect(screen.queryByTestId('thing-list-item-100')).not.toBeInTheDocument()
@@ -235,7 +237,9 @@ describe('ThingListPanel', () => {
       render(<ThingListPanel />)
       const input = screen.getByTestId('thing-search-input')
       fireEvent.change(input, { target: { value: 'golden' } })
-      act(() => { vi.advanceTimersByTime(200) })
+      act(() => {
+        vi.advanceTimersByTime(200)
+      })
 
       expect(screen.getByTestId('thing-list-item-100')).toBeInTheDocument()
       expect(screen.queryByTestId('thing-list-item-101')).not.toBeInTheDocument()
@@ -249,7 +253,9 @@ describe('ThingListPanel', () => {
 
       const input = screen.getByTestId('thing-search-input')
       fireEvent.change(input, { target: { value: '999999' } })
-      act(() => { vi.advanceTimersByTime(200) })
+      act(() => {
+        vi.advanceTimersByTime(200)
+      })
 
       expect(screen.getByText('No results found')).toBeInTheDocument()
       vi.useRealTimers()

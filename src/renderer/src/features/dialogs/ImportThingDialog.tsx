@@ -8,7 +8,14 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, DialogButton, BrowseField, FieldGroup, InfoRow, RadioField } from '../../components/Modal'
+import {
+  Modal,
+  DialogButton,
+  BrowseField,
+  FieldGroup,
+  InfoRow,
+  RadioField
+} from '../../components/Modal'
 import type { ThingData } from '../../types/things'
 import { ThingCategory } from '../../types/things'
 import { VERSIONS } from '../../data'
@@ -38,11 +45,16 @@ export interface ImportThingDialogProps {
 
 function getCategoryLabel(category: string): string {
   switch (category) {
-    case ThingCategory.ITEM: return 'Item'
-    case ThingCategory.OUTFIT: return 'Outfit'
-    case ThingCategory.EFFECT: return 'Effect'
-    case ThingCategory.MISSILE: return 'Missile'
-    default: return category
+    case ThingCategory.ITEM:
+      return 'Item'
+    case ThingCategory.OUTFIT:
+      return 'Outfit'
+    case ThingCategory.EFFECT:
+      return 'Effect'
+    case ThingCategory.MISSILE:
+      return 'Missile'
+    default:
+      return category
   }
 }
 
@@ -125,7 +137,12 @@ export function ImportThingDialog({
       width={420}
       footer={
         <>
-          <DialogButton label={t('labels.import')} onClick={handleConfirm} primary disabled={!isValid} />
+          <DialogButton
+            label={t('labels.import')}
+            onClick={handleConfirm}
+            primary
+            disabled={!isValid}
+          />
           <DialogButton label={t('labels.cancel')} onClick={onClose} />
         </>
       }
@@ -141,13 +158,9 @@ export function ImportThingDialog({
 
         {/* Preview */}
         <FieldGroup label={t('labels.preview')}>
-          {loading && (
-            <p className="text-xs text-text-secondary">Loading...</p>
-          )}
+          {loading && <p className="text-xs text-text-secondary">Loading...</p>}
 
-          {error && (
-            <p className="text-xs text-error">{error}</p>
-          )}
+          {error && <p className="text-xs text-error">{error}</p>}
 
           {!loading && !error && !thingData && (
             <p className="text-xs text-text-secondary">Select a file to preview.</p>
@@ -155,9 +168,22 @@ export function ImportThingDialog({
 
           {thingData && !loading && (
             <div className="flex flex-col gap-1">
-              <InfoRow label={t('labels.type')} value={getCategoryLabel(thingData.thing.category)} />
-              <InfoRow label={t('labels.version')} value={getVersionLabel(thingData.clientVersion)} />
-              <InfoRow label="OBD Version" value={thingData.obdVersion === 0 ? 'v1.0' : `v${(thingData.obdVersion / 100).toFixed(1)}`} />
+              <InfoRow
+                label={t('labels.type')}
+                value={getCategoryLabel(thingData.thing.category)}
+              />
+              <InfoRow
+                label={t('labels.version')}
+                value={getVersionLabel(thingData.clientVersion)}
+              />
+              <InfoRow
+                label="OBD Version"
+                value={
+                  thingData.obdVersion === 0
+                    ? 'v1.0'
+                    : `v${(thingData.obdVersion / 100).toFixed(1)}`
+                }
+              />
               {thingData.thing.marketName && (
                 <InfoRow label={t('labels.name')} value={thingData.thing.marketName} />
               )}
@@ -168,7 +194,9 @@ export function ImportThingDialog({
                 label={t('labels.sprites')}
                 value={(() => {
                   let count = 0
-                  thingData.sprites.forEach((arr) => { count += arr.length })
+                  thingData.sprites.forEach((arr) => {
+                    count += arr.length
+                  })
                   return count
                 })()}
               />

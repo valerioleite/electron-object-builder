@@ -80,9 +80,7 @@ export function Modal({
 
         {/* Footer — Material Design dialog actions */}
         {footer && (
-          <div className="flex shrink-0 items-center justify-end gap-2 px-6 py-4">
-            {footer}
-          </div>
+          <div className="flex shrink-0 items-center justify-end gap-2 px-6 py-4">{footer}</div>
         )}
       </div>
     </div>

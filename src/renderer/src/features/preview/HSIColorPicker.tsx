@@ -88,10 +88,7 @@ export function HSIColorPicker({ label, value, onChange }: HSIColorPickerProps):
           onClick={() => setOpen(!open)}
           title={`${label}: color ${value}`}
         >
-          <div
-            className="h-4 w-4 rounded-sm"
-            style={{ backgroundColor: currentColor }}
-          />
+          <div className="h-4 w-4 rounded-sm" style={{ backgroundColor: currentColor }} />
         </button>
 
         {open && (

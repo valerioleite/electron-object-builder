@@ -19,7 +19,14 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, DialogButton, FieldGroup, NumberInputField, CheckboxField, SelectField } from '../../components/Modal'
+import {
+  Modal,
+  DialogButton,
+  FieldGroup,
+  NumberInputField,
+  CheckboxField,
+  SelectField
+} from '../../components/Modal'
 import {
   IconOpen,
   IconRotateRight,
@@ -75,7 +82,8 @@ function drawCheckerboard(
 ): void {
   for (let y = 0; y < height; y += tileSize) {
     for (let x = 0; x < width; x += tileSize) {
-      ctx.fillStyle = ((x / tileSize + y / tileSize) % 2 === 0) ? CHECKERBOARD_LIGHT : CHECKERBOARD_DARK
+      ctx.fillStyle =
+        (x / tileSize + y / tileSize) % 2 === 0 ? CHECKERBOARD_LIGHT : CHECKERBOARD_DARK
       ctx.fillRect(x, y, tileSize, tileSize)
     }
   }
@@ -210,21 +218,45 @@ function SlicerToolbar({
 
   return (
     <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border bg-bg-secondary px-2">
-      <button className={`${btnStyle} gap-1`} onClick={onOpen} title={`${t('labels.open')} (Ctrl+O)`}>
+      <button
+        className={`${btnStyle} gap-1`}
+        onClick={onOpen}
+        title={`${t('labels.open')} (Ctrl+O)`}
+      >
         <IconOpen size={14} /> {t('labels.open')}
       </button>
       <div className="mx-1 h-4 w-px bg-border" />
-      <button className={btnStyle} onClick={onRotateRight} disabled={!hasImage} title={t('labels.rotateRight90')}>
+      <button
+        className={btnStyle}
+        onClick={onRotateRight}
+        disabled={!hasImage}
+        title={t('labels.rotateRight90')}
+      >
         <IconRotateRight size={14} />
       </button>
-      <button className={btnStyle} onClick={onRotateLeft} disabled={!hasImage} title={t('labels.rotateLeft90')}>
+      <button
+        className={btnStyle}
+        onClick={onRotateLeft}
+        disabled={!hasImage}
+        title={t('labels.rotateLeft90')}
+      >
         <IconRotateLeft size={14} />
       </button>
       <div className="mx-1 h-4 w-px bg-border" />
-      <button className={btnStyle} onClick={onFlipV} disabled={!hasImage} title={t('labels.flipVertical')}>
+      <button
+        className={btnStyle}
+        onClick={onFlipV}
+        disabled={!hasImage}
+        title={t('labels.flipVertical')}
+      >
         <IconFlipVertical size={14} />
       </button>
-      <button className={btnStyle} onClick={onFlipH} disabled={!hasImage} title={t('labels.flipHorizontal')}>
+      <button
+        className={btnStyle}
+        onClick={onFlipH}
+        disabled={!hasImage}
+        title={t('labels.flipHorizontal')}
+      >
         <IconFlipHorizontal size={14} />
       </button>
     </div>
@@ -292,7 +324,12 @@ function ImageCanvas({
     ctx.imageSmoothingEnabled = false
 
     // Checkerboard
-    drawCheckerboard(ctx, canvas.width, canvas.height, Math.max(4, Math.round(CHECKERBOARD_SIZE * zoom)))
+    drawCheckerboard(
+      ctx,
+      canvas.width,
+      canvas.height,
+      Math.max(4, Math.round(CHECKERBOARD_SIZE * zoom))
+    )
 
     // Image
     const tmp = document.createElement('canvas')
@@ -384,10 +421,7 @@ function ImageCanvas({
         const newY = Math.round(my - gh / 2)
         const maxX = imageData.width - gw
         const maxY = imageData.height - gh
-        onGridMove(
-          Math.max(0, Math.min(maxX, newX)),
-          Math.max(0, Math.min(maxY, newY))
-        )
+        onGridMove(Math.max(0, Math.min(maxX, newX)), Math.max(0, Math.min(maxY, newY)))
       }
     },
     [imageData, zoom, gridX, gridY, cellWidth, cellHeight, columns, rows, onGridMove]
@@ -411,10 +445,7 @@ function ImageCanvas({
       const newX = Math.round(mx - dragOffsetRef.current.x)
       const newY = Math.round(my - dragOffsetRef.current.y)
 
-      onGridMove(
-        Math.max(0, Math.min(maxX, newX)),
-        Math.max(0, Math.min(maxY, newY))
-      )
+      onGridMove(Math.max(0, Math.min(maxX, newX)), Math.max(0, Math.min(maxY, newY)))
     },
     [imageData, zoom, cellWidth, cellHeight, columns, rows, onGridMove]
   )
@@ -451,7 +482,11 @@ function ImageCanvas({
     >
       <canvas
         ref={canvasRef}
-        style={{ imageRendering: 'pixelated', display: 'block', cursor: imageData ? 'crosshair' : 'default' }}
+        style={{
+          imageRendering: 'pixelated',
+          display: 'block',
+          cursor: imageData ? 'crosshair' : 'default'
+        }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -471,7 +506,11 @@ interface SpriteThumbnailListProps {
   onSelect: (index: number) => void
 }
 
-function SpriteThumbnailList({ sprites, selectedIndex, onSelect }: SpriteThumbnailListProps): React.JSX.Element {
+function SpriteThumbnailList({
+  sprites,
+  selectedIndex,
+  onSelect
+}: SpriteThumbnailListProps): React.JSX.Element {
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -565,65 +604,77 @@ export function SlicerDialog({ open, onClose }: SlicerDialogProps): React.JSX.El
     []
   )
 
-  // Reset state when dialog opens
-  useEffect(() => {
-    if (open) {
-      setSourceImage(null)
-      setZoom(1.0)
-      setGridX(0)
-      setGridY(0)
-      setColumns(1)
-      setRows(1)
-      setSubdivisions(false)
-      setIncludeEmpty(false)
-      setSprites([])
-      setSelectedSpriteIndex(-1)
-    }
-  }, [open])
+  // Reset state when dialog opens (render-time state adjustment)
+  const [prevOpen, setPrevOpen] = useState(false)
+  if (open && !prevOpen) {
+    setSourceImage(null)
+    setZoom(1.0)
+    setGridX(0)
+    setGridY(0)
+    setColumns(1)
+    setRows(1)
+    setSubdivisions(false)
+    setIncludeEmpty(false)
+    setSprites([])
+    setSelectedSpriteIndex(-1)
+  }
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+  }
 
-  // Clamp grid position when parameters change
-  useEffect(() => {
-    if (!sourceImage) return
-    const maxX = Math.max(0, sourceImage.width - cellSize * columns)
-    const maxY = Math.max(0, sourceImage.height - cellSize * rows)
-    setGridX((prev) => Math.min(prev, maxX))
-    setGridY((prev) => Math.min(prev, maxY))
-  }, [sourceImage, cellSize, columns, rows])
+  // Clamp grid position when parameters change (render-time state adjustment)
+  const [prevClampKey, setPrevClampKey] = useState('')
+  const clampKey = sourceImage
+    ? `${sourceImage.width}:${sourceImage.height}:${cellSize}:${columns}:${rows}`
+    : ''
+  if (clampKey && clampKey !== prevClampKey) {
+    setPrevClampKey(clampKey)
+    const maxX = Math.max(0, sourceImage!.width - cellSize * columns)
+    const maxY = Math.max(0, sourceImage!.height - cellSize * rows)
+    if (gridX > maxX) setGridX(maxX)
+    if (gridY > maxY) setGridY(maxY)
+  }
+  if (!clampKey && prevClampKey) {
+    setPrevClampKey('')
+  }
 
   // -------------------------------------------------------------------------
   // Image loading
   // -------------------------------------------------------------------------
 
-  const loadImageFile = useCallback((file: File) => {
-    const url = URL.createObjectURL(file)
-    const img = new Image()
+  const loadImageFile = useCallback(
+    (file: File) => {
+      const url = URL.createObjectURL(file)
+      const img = new Image()
 
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
-      const ctx = canvas.getContext('2d')!
-      ctx.drawImage(img, 0, 0)
-      const imgData = ctx.getImageData(0, 0, img.width, img.height)
-      setSourceImage(imgData)
-      URL.revokeObjectURL(url)
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = img.width
+        canvas.height = img.height
+        const ctx = canvas.getContext('2d')!
+        ctx.drawImage(img, 0, 0)
+        const imgData = ctx.getImageData(0, 0, img.width, img.height)
+        setSourceImage(imgData)
+        URL.revokeObjectURL(url)
 
-      // Reset grid position and auto-fit columns/rows
-      setGridX(0)
-      setGridY(0)
-      const dim = SPRITE_DIMENSIONS[spriteDimIndex]?.size ?? 32
-      setColumns(Math.max(1, Math.min(MAX_COLUMNS, Math.floor(img.width / dim))))
-      setRows(Math.max(1, Math.min(MAX_ROWS, Math.floor(img.height / dim))))
-      setSprites([])
-      setSelectedSpriteIndex(-1)
-    }
+        // Reset grid position and auto-fit columns/rows
+        setGridX(0)
+        setGridY(0)
+        const dim = SPRITE_DIMENSIONS[spriteDimIndex]?.size ?? 32
+        setColumns(Math.max(1, Math.min(MAX_COLUMNS, Math.floor(img.width / dim))))
+        setRows(Math.max(1, Math.min(MAX_ROWS, Math.floor(img.height / dim))))
+        setSprites([])
+        setSelectedSpriteIndex(-1)
+      }
 
-    img.onerror = () => {
-      URL.revokeObjectURL(url)
-    }
+      img.onerror = () => {
+        URL.revokeObjectURL(url)
+      }
 
-    img.src = url
-  }, [spriteDimIndex])
+      img.src = url
+    },
+    [spriteDimIndex]
+  )
 
   // -------------------------------------------------------------------------
   // Toolbar actions
@@ -820,7 +871,12 @@ export function SlicerDialog({ open, onClose }: SlicerDialogProps): React.JSX.El
   if (!open) return null
 
   return (
-    <Modal title="Slicer" open={open} onClose={onClose} width={900} closeOnBackdrop={false}
+    <Modal
+      title="Slicer"
+      open={open}
+      onClose={onClose}
+      width={900}
+      closeOnBackdrop={false}
       footer={<DialogButton label={t('labels.close')} onClick={onClose} />}
     >
       <div className="flex flex-col" style={{ height: 520 }}>
@@ -912,7 +968,9 @@ export function SlicerDialog({ open, onClose }: SlicerDialogProps): React.JSX.El
                   value={zoom}
                   onChange={(e) => setZoom(Number(e.target.value))}
                 />
-                <span className="w-9 text-right text-[10px] text-text-secondary">{zoom.toFixed(1)}x</span>
+                <span className="w-9 text-right text-[10px] text-text-secondary">
+                  {zoom.toFixed(1)}x
+                </span>
               </div>
             </FieldGroup>
 

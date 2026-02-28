@@ -734,8 +734,7 @@ describe('server-items-service', () => {
       item.clientId = 100
       const buffer = makeOtbBuffer([item])
 
-      const xml =
-        '<?xml version="1.0"?><items><item id="100" name="sword" article="a" /></items>'
+      const xml = '<?xml version="1.0"?><items><item id="100" name="sword" article="a" /></items>'
 
       const result = loadServerItems({ otbBuffer: buffer, xmlContent: xml })
       expect(result.missingAttributes).toEqual([])

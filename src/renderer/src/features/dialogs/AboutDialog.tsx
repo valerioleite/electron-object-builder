@@ -5,7 +5,7 @@
  * Displays app name, version, copyright, license, and supporter links.
  */
 
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal, DialogButton } from '../../components/Modal'
 
@@ -38,7 +38,9 @@ export function AboutDialog({ open, onClose }: AboutDialogProps): React.JSX.Elem
         {/* App name and version */}
         <div>
           <h2 className="text-lg font-bold text-text-primary">{APP_NAME}</h2>
-          <p className="text-sm text-text-secondary">{t('labels.version')} {APP_VERSION}</p>
+          <p className="text-sm text-text-secondary">
+            {t('labels.version')} {APP_VERSION}
+          </p>
         </div>
 
         {/* Copyright */}
@@ -48,9 +50,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps): React.JSX.Elem
         <p className="text-xs leading-relaxed text-text-secondary">{LICENSE_TEXT}</p>
 
         {/* Tech stack */}
-        <p className="text-xs text-text-secondary/60">
-          Built with Electron + React + TypeScript
-        </p>
+        <p className="text-xs text-text-secondary/60">Built with Electron + React + TypeScript</p>
       </div>
     </Modal>
   )

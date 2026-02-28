@@ -1,1 +1,4 @@
-export { LookTypeGeneratorDialog, type LookTypeGeneratorDialogProps } from './LookTypeGeneratorDialog'
+export {
+  LookTypeGeneratorDialog,
+  type LookTypeGeneratorDialogProps
+} from './LookTypeGeneratorDialog'
