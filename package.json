@@ -40,8 +40,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "nicollascs",
-      "repo": "object-builder"
+      "owner": "valerioleite",
+      "repo": "electron-object-builder"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
