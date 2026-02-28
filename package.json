@@ -25,7 +25,10 @@
     "object-builder",
     "sprite-editor"
   ],
-  "author": "Calango Studios",
+  "author": {
+    "name": "Calango Studios",
+    "email": "calangostudios@gmail.com"
+  },
   "license": "MIT",
   "build": {
     "appId": "com.mignari.ObjectBuilder",
